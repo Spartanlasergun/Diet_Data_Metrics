@@ -1,6 +1,7 @@
 #Diet Data Metrics
 import os
 import tkinter
+import time
 from tkinter import font
 from os import path
 from datetime import datetime
@@ -29,6 +30,15 @@ if path.exists(polyfile):
 else:
     os.makedirs(polyfile)
 
+def cleanup_empty_directories():
+    dir_list = [f.path for f in os.scandir(polyfile) if f.is_dir()]
+    if len(dir_list) > 0:
+        for directory in dir_list:
+            files = [f.path for f in os.scandir(directory) if f.is_file()]
+            if len(files) == 0:
+                os.rmdir(directory)
+
+cleanup_empty_directories()
 #Diet Data Canvas
 Diet_Data = tkinter.Canvas(Diet_Data_Metrics, width=900, height=535, background="grey", bd=3, relief='sunken')
 Diet_Data.place(x=355, y=60)
@@ -40,6 +50,29 @@ Data_Log_Preview.place(x=3, y=237)
 
 # Create Standard Calorie vs Time Axis
 def bulid_axis():
+    #data fetch
+    day_fetch = str(Day.get())
+    month_fetch = str(Month.get())
+    year_fetch = str(Year.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    wake_log = "/wake_log.txt"
+    real_time = False
+    if path.exists(polyfile + polyfile_dir + wake_log):
+        read_w = open(polyfile + polyfile_dir + wake_log, "r", encoding='utf8')
+        x_start = read_w.read()
+        read_w.close()
+        x_start_split = x_start.split(":")
+        hour_start = x_start_split[0]
+        min_start = x_start_split[1]
+        am_pm_start = x_start_split[2]
+        real_time = True
+        if hour_start == "":
+            hour_start = 1
+            min_start = "01"
+            am_pm_start = "am"
+        else:
+            hour_start = int(x_start_split[0])
+
     Calorie_Axis = Diet_Data.create_line(50, 500, 50, 100, width=2)
     Calorie_datapoints = 16
     cal_y = 475
@@ -57,15 +90,91 @@ def bulid_axis():
     time_inc = 1
     while Time_datapoints != 0:
         Diet_Data.create_line(Time_x, 500, Time_x, 510, width=2, fill="lime")
-        Diet_Data.create_text(Time_x, 520, text=str(time_inc))
+        if real_time == True:
+            Diet_Data.create_text(Time_x, 520, text=(str(hour_start + time_inc) + ":" + min_start + am_pm_start),
+                                  font=("Times New Roman", 7, "bold"))
+            if (hour_start + time_inc) == 12:
+                hour_start = 0
+                time_inc = 0
+            if (hour_start + time_inc) == 11:
+                if am_pm_start == "am":
+                    am_pm_start = "pm"
+                else:
+                    am_pm_start = "am"
+        else:
+            Diet_Data.create_text(Time_x, 520, text=str(time_inc))
         Time_datapoints = Time_datapoints - 1
         Time_x = Time_x + 50
         time_inc = time_inc + 1
+
     #Graph Label
     Diet_Data.create_text(440, 130, text="Graph Showing", font=("Times New Roman", 10, "bold"))
     Diet_Data.create_text(393, 145, text="CALORIES(cal)", font=("Times New Roman", 10, "bold"))
     Diet_Data.create_text(450, 145, text="vs", font=("Times New Roman", 10, "bold"))
     Diet_Data.create_text(490, 145, text="TIME(hrs)", font=("Times New Roman", 10, "bold"))
+
+    #Plot Red Zone
+    Diet_Data.create_line(50, 300, 850, 300, fill="red", dash=(3, 1))
+
+    #Plot Food Data Points
+    food_log = "/food_log.txt"
+    if path.exists(polyfile + polyfile_dir + food_log):
+        read_flog = open(polyfile + polyfile_dir + food_log, "r", encoding='utf8')
+        f_data = read_flog.read().splitlines()
+        read_flog.close()
+        food_data_points = []
+        cycle_factor = 0
+        for food_item in f_data:
+            data_point = food_item.split(":")
+            cal_val = int(data_point[4])
+            y_val = 500 - ((cal_val/100)*25)
+            #determine x_val
+            time_hr = int(data_point[0])
+            time_min = int(data_point[1])
+            time_cycle = data_point[2]
+            if path.exists(polyfile + polyfile_dir + wake_log):
+                begin = open(polyfile + polyfile_dir + wake_log, "r", encoding='utf8')
+                start_data = begin.read()
+                begin.close()
+                start_data_s = start_data.split(":")
+                start_hr = int(start_data_s[0])
+                start_min = int(start_data_s[1])
+                if cycle_factor == 0:
+                    start_cycle = start_data_s[2]
+                # adjust for cycle
+                if (time_cycle != start_cycle) and (time_hr < 12):
+                    start_cycle = time_cycle
+                    cycle_factor = cycle_factor + 1
+                time_hr_mag = (time_hr + (12*cycle_factor)) - start_hr
+                time_min_mag = time_min - start_min
+                x_val = 50 + (time_hr_mag*50) + ((time_min_mag/60)*50)
+                food_data_points.append(str(x_val) + ":" + str(y_val))
+
+        #plot data points
+        if len(food_data_points) != 0:
+            for point in food_data_points:
+                pt_split = point.split(":")
+                x_point = int(float(pt_split[0]))
+                y_point = int(float(pt_split[1]))
+                if y_point < 300:
+                    colour = "red"
+                else:
+                    colour = "green"
+                Diet_Data.create_oval(x_point-6, y_point-6, x_point+6, y_point+6, fill=colour)
+                Diet_Data.update()
+            line_count = (len(food_data_points)) - 1
+            while line_count != 0:
+                coords_one = food_data_points[line_count]
+                coords_two = food_data_points[(line_count-1)]
+                split_one = coords_one.split(":")
+                x_1 = split_one[0]
+                y_1 = split_one[1]
+                split_two = coords_two.split(":")
+                x_2 = split_two[0]
+                y_2 = split_two[1]
+                Diet_Data.create_line(x_1, y_1, x_2, y_2, fill="lime")
+                line_count = line_count - 1
+
 
 def weightcontrol_model_one():
     max_calories = 2600
@@ -85,33 +194,33 @@ def weightcontrol_model_one():
 
     Diet_Data.create_oval(s_snack_x - 3, s_snack_y - 3, s_snack_x + 3, s_snack_y + 3, fill="blue")
     Diet_Data.create_text(s_snack_x, s_snack_y + 10, text="Snack")
-    Diet_Data.create_line(breakfast_x, breakfast_y, s_snack_x, s_snack_y, width=2, fill="orange")
+    Diet_Data.create_line(breakfast_x, breakfast_y, s_snack_x, s_snack_y, fill="orange")
 
     s_snack_x = s_snack_x + 100
     Diet_Data.create_oval(s_snack_x - 3, s_snack_y - 3, s_snack_x + 3, s_snack_y + 3, fill="blue")
     Diet_Data.create_text(s_snack_x, s_snack_y + 10, text="Snack")
-    Diet_Data.create_line(s_snack_x - 100, s_snack_y, s_snack_x, s_snack_y, width=2, fill="orange")
+    Diet_Data.create_line(s_snack_x - 100, s_snack_y, s_snack_x, s_snack_y, fill="orange")
 
     Diet_Data.create_oval(lunch_x - 3, lunch_y - 3, lunch_x + 3, lunch_y + 3, fill="blue")
-    Diet_Data.create_line(s_snack_x, s_snack_y, lunch_x, lunch_y, width=2, fill="orange")
+    Diet_Data.create_line(s_snack_x, s_snack_y, lunch_x, lunch_y, fill="orange")
 
     s_snack_x = s_snack_x + 200
     Diet_Data.create_oval(s_snack_x - 3, s_snack_y - 3, s_snack_x + 3, s_snack_y + 3, fill="blue")
     Diet_Data.create_text(s_snack_x, s_snack_y + 10, text="Snack")
-    Diet_Data.create_line(lunch_x, lunch_y, s_snack_x, s_snack_y, width=2, fill="orange")
+    Diet_Data.create_line(lunch_x, lunch_y, s_snack_x, s_snack_y, fill="orange")
 
     s_snack_x = s_snack_x + 100
     Diet_Data.create_oval(s_snack_x - 3, s_snack_y - 3, s_snack_x + 3, s_snack_y + 3, fill="blue")
     Diet_Data.create_text(s_snack_x, s_snack_y + 10, text="Snack")
-    Diet_Data.create_line(s_snack_x - 100, s_snack_y, s_snack_x, s_snack_y, width=2, fill="orange")
+    Diet_Data.create_line(s_snack_x - 100, s_snack_y, s_snack_x, s_snack_y, fill="orange")
 
     Diet_Data.create_oval(dinner_x - 3, dinner_y - 3, dinner_x + 3, dinner_y + 3, fill="blue")
-    Diet_Data.create_line(s_snack_x, s_snack_y, dinner_x, dinner_y, width=2, fill="orange")
+    Diet_Data.create_line(s_snack_x, s_snack_y, dinner_x, dinner_y, fill="orange")
 
     s_snack_x = s_snack_x + 200
     Diet_Data.create_oval(s_snack_x - 3, s_snack_y - 3, s_snack_x + 3, s_snack_y + 3, fill="blue")
     Diet_Data.create_text(s_snack_x, s_snack_y + 10, text="Snack")
-    Diet_Data.create_line(dinner_x, dinner_y, s_snack_x, s_snack_y, width=2, fill="orange")
+    Diet_Data.create_line(dinner_x, dinner_y, s_snack_x, s_snack_y, fill="orange")
 
     Diet_Data.create_text(breakfast_x, breakfast_y + 10, text="Breakfast")
     Diet_Data.create_text(lunch_x, lunch_y + 10, text="Lunch")
@@ -155,19 +264,18 @@ def update_log_screen():
     year_fetch = str(Year.get())
 
     #Initialize Sleep Boxes
-    if boot == 1:
-        Asleep.delete(0, "end")
-        Asleep.insert(0, "12:00")
-        Asleep_amp.config(state="normal")
-        Asleep_amp.delete(0, "end")
-        Asleep_amp.insert(0, "am")
-        Asleep_amp.config(state="readonly")
-        Awoke.delete(0, "end")
-        Awoke.insert(0, "12:00")
-        Awoke_amp.config(state="normal")
-        Awoke_amp.delete(0, "end")
-        Awoke_amp.insert(0, "am")
-        Awoke_amp.config(state="readonly")
+    Asleep.delete(0, "end")
+    Asleep.insert(0, "12:00")
+    Asleep_amp.config(state="normal")
+    Asleep_amp.delete(0, "end")
+    Asleep_amp.insert(0, "am")
+    Asleep_amp.config(state="readonly")
+    Awoke.delete(0, "end")
+    Awoke.insert(0, "12:00")
+    Awoke_amp.config(state="normal")
+    Awoke_amp.delete(0, "end")
+    Awoke_amp.insert(0, "am")
+    Awoke_amp.config(state="readonly")
 
     #Fetch Heading Information
     Data_Log_Preview.create_text(170, 10, text=("Displaying Log for: " + day_fetch + " " +
@@ -189,13 +297,12 @@ def update_log_screen():
             Data_Log_Preview.create_text(110, 30, text=(split_wake[0] + ":" + split_wake[1] + split_wake[2]),
                                          font=("Times New Roman", 8), fill="cyan")
             Data_Log_Preview.update()
-            if boot == 1:
-                Awoke.delete(0, "end")
-                Awoke.insert(0, (split_wake[0] + ":" + split_wake[1]))
-                Awoke_amp.config(state="normal")
-                Awoke_amp.delete(0, "end")
-                Awoke_amp.insert(0, str((split_wake[2])))
-                Awoke_amp.config(state="readonly")
+            Awoke.delete(0, "end")
+            Awoke.insert(0, (split_wake[0] + ":" + split_wake[1]))
+            Awoke_amp.config(state="normal")
+            Awoke_amp.delete(0, "end")
+            Awoke_amp.insert(0, str((split_wake[2])))
+            Awoke_amp.config(state="readonly")
     sleep_log = "/sleep_log.txt"
     if path.exists(polyfile + polyfile_dir + sleep_log):
         get_sleep = open(polyfile + polyfile_dir + sleep_log, "r", encoding="utf8")
@@ -209,13 +316,12 @@ def update_log_screen():
             Data_Log_Preview.create_text(110, 50, text=(split_sleep[0] + ":" + split_sleep[1] + split_sleep[2]),
                                          font=("Times New Roman", 8), fill="cyan")
             Data_Log_Preview.update()
-            if boot == 1:
-                Asleep.delete(0, "end")
-                Asleep.insert(0, (split_sleep[0] + ":" + split_sleep[1]))
-                Asleep_amp.config(state="normal")
-                Asleep_amp.delete(0, "end")
-                Asleep_amp.insert(0, str((split_sleep[2])))
-                Asleep_amp.config(state="readonly")
+            Asleep.delete(0, "end")
+            Asleep.insert(0, (split_sleep[0] + ":" + split_sleep[1]))
+            Asleep_amp.config(state="normal")
+            Asleep_amp.delete(0, "end")
+            Asleep_amp.insert(0, str((split_sleep[2])))
+            Asleep_amp.config(state="readonly")
 
     #update food information
     food_log = "/food_log.txt"
@@ -229,12 +335,12 @@ def update_log_screen():
         Data_Log_Preview.create_text(300, 75, text="Calories")
         calorie_total = 0
         for x in food_data:
-            food_print = x.split("-")
-            Data_Log_Preview.create_text(40, top, text=food_print[0], fill="lime")
-            Data_Log_Preview.create_text(170, top, text=food_print[1], fill="lime")
-            Data_Log_Preview.create_text(300, top, text=food_print[2], fill="lime")
+            food_print = x.split(":")
+            Data_Log_Preview.create_text(40, top, text=(food_print[0] + ":" + food_print[1] + food_print[2]), fill="lime")
+            Data_Log_Preview.create_text(170, top, text=food_print[3], fill="lime")
+            Data_Log_Preview.create_text(300, top, text=food_print[4], fill="lime")
             top = top + 18
-            calorie_total = calorie_total + int(food_print[2])
+            calorie_total = calorie_total + int(food_print[4])
         Data_Log_Preview.create_text(170, 350, text=("Calorie Total = " + str(calorie_total)), fill="lime")
         Data_Log_Preview.update()
     update_data_metrics()
@@ -299,8 +405,6 @@ Year.place(x=255, y=22)
 Year.delete(0, "end")
 Year.insert(0, year_get)
 Year.config(state="readonly")
-
-polyfile_record() #autocreate polyfile directory on startup
 
 #Sleep data INPUT
 sleep_section = tkinter.Canvas(Diet_Data_Metrics, width=340, height=65, background="lightblue")
@@ -396,28 +500,47 @@ food_section.create_rectangle(215, 33, 335, 97, fill="lime")
 def Log_Food_Data():
     #get input data
     Food = Food_Name.get()
-    if Food == "":
-        Food = "No_Data"
     Calorie_val = Calories.get()
-    if Calorie_val == "":
-        Calorie_val = "No_Data"
     TIME = Time.get()
-    if TIME == "":
-        TIME = "No_Data"
     am_pm = Time_amp.get()
-
-    #Store Data
-    day_fetch = str(Day.get())
-    month_fetch = str(Month.get())
-    year_fetch = str(Year.get())
-    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
-    food_log = "/food_log.txt"
-    food_store = open(polyfile + polyfile_dir + food_log, "a", encoding='utf8')
-    food_store.write(TIME + am_pm + "-" + Food + "-" + Calorie_val + "\n")
-    food_store.close()
-
-    #update data log preview
-    update_log_screen()
+    if Food == "":
+        Food = "Unknown"
+    if len(Food) > 32:
+        Food_Name.delete(0, "end")
+        Food_Name.insert(0, "32 Characters max!")
+    else:
+        #begin validation
+        try:
+            Calorie_int_check = int(Calorie_val)
+            t_split = TIME.split(":")
+            if Calorie_int_check > 0:
+                if len(t_split) == 2:
+                    t_hr_check = int(t_split[0])
+                    t_min_check = int(t_split[1])
+                    if (t_hr_check <= 12) and (t_min_check <= 59) and (t_hr_check > 0) and (t_min_check >= 0):
+                        #Store Data
+                        day_fetch = str(Day.get())
+                        month_fetch = str(Month.get())
+                        year_fetch = str(Year.get())
+                        polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+                        food_log = "/food_log.txt"
+                        food_store = open(polyfile + polyfile_dir + food_log, "a", encoding='utf8')
+                        food_store.write(TIME + ":" + am_pm + ":" + Food + ":" + Calorie_val + "\n")
+                        food_store.close()
+                        #update log screen
+                        update_log_screen()
+                    else:
+                        Time.delete(0, "end")
+                        Time.insert(0, "invalid")
+                else:
+                    Time.delete(0, "end")
+                    Time.insert(0, "invalid")
+            else:
+                Calories.delete(0, "end")
+                Calories.insert(0, "invalid")
+        except:
+            Calories.delete(0, "end")
+            Calories.insert(0, "invalid")
 
 def ClearFood():
     day_fetch = str(Day.get())
@@ -436,8 +559,6 @@ def ClearFood():
             ammend.write(item +"\n")
         ammend.close()
         update_log_screen()
-
-
 
 Food_Name_Label = tkinter.Label(Diet_Data_Metrics, text="Food Name:").place(x=36, y=140)
 Food_Name = tkinter.Entry(Diet_Data_Metrics, width=30)
@@ -460,7 +581,17 @@ Log_Food.place(x=237, y=168)
 Clear_Item = tkinter.Button(Diet_Data_Metrics, text="clear", command=ClearFood)
 Clear_Item.place(x=265, y=198)
 
-boot = 1
-update_log_screen()
+polyfile_record() #auto-creates a file directory and calls the log-screen to update
+
+def cleanup_operations():
+    Diet_Data.delete("all")
+    Diet_Data.create_text(450, 268, text="EXITING...")
+    Diet_Data.update()
+    cleanup_empty_directories()
+    time.sleep(2)
+    root.destroy()
+
+
+root.protocol("WM_DELETE_WINDOW", cleanup_operations)
 
 root.mainloop()
