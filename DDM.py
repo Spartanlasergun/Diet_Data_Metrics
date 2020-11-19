@@ -17,9 +17,9 @@ root.resizable(0, 0)
 #Setup Notebook
 TabControl = ttk.Notebook(root)
 Diet_Data_Metrics = ttk.Frame(TabControl)
-Sleep_Data_Metrics = ttk.Frame(TabControl)
+Nutrition_Data_Metrics = ttk.Frame(TabControl)
 TabControl.add(Diet_Data_Metrics, text="Main Log", padding=3)
-TabControl.add(Sleep_Data_Metrics, text="Exercise Log", padding=3)
+TabControl.add(Nutrition_Data_Metrics, text="Nutrition Log", padding=3)
 TabControl.pack(expand=1, fill="both")
 
 #Locate and Create Database Directory
@@ -45,8 +45,12 @@ Weight_Control_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=360, height=50, 
 Weight_Control_Canvas.place(x=355, y=5)
 
 #Graph Controls
-Graphing = tkinter.Canvas(Diet_Data_Metrics, width=540, height=50, background="LightSalmon")
+Graphing = tkinter.Canvas(Diet_Data_Metrics, width=330, height=50, background="LightSalmon")
 Graphing.place(x=720, y=5)
+
+#Log Water Intake Canvas
+Water_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=205, height=50, background="Light Slate Blue")
+Water_Canvas.place(x=1055, y=5)
 
 #Diet Data Canvas
 Diet_Data = tkinter.Canvas(Diet_Data_Metrics, width=900, height=535, background="grey", bd=3, relief='sunken')
@@ -465,8 +469,6 @@ def weightcontrol_model_three():
 
     Diet_Data.update()
 
-
-
 def weightcontrol_model_two():
     day_fetch = str(Day.get())
     month_fetch = str(Month.get())
@@ -596,12 +598,14 @@ def Calculate_BMI():
     year_fetch = str(Year.get())
     polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
     W_H = "/Weight and Height.txt"
+    store_weight = 0
     if path.exists(polyfile + polyfile_dir + W_H):
         fetch = open(polyfile + polyfile_dir + W_H, "r", encoding='utf8')
         data = fetch.read()
         fetch.close()
         data_split = data.split(":")
         Weight = float(data_split[0])
+        store_weight = Weight
         Height = float(data_split[1])
         BMI = Weight/(Height**2)
         BMI = round(BMI, 2)
@@ -671,7 +675,33 @@ def Calculate_BMI():
                 colour = "lime"
             Diet_Data.create_text(442, 30, text=(daily_total + " (cal)"),
                                   font=("Times New Roman", 10, "bold"), fill=colour)
-
+    #display water log data
+    if store_weight == 0:
+        max_water = 64
+    else:
+        max_water = ((store_weight*2.2) * 0.666)
+    water_log = "/water log.txt"
+    if path.exists(polyfile + polyfile_dir + water_log):
+        read_water = open(polyfile + polyfile_dir + water_log, "r", encoding='utf8')
+        water_data = read_water.read().splitlines()
+        read_water.close()
+        #create water scale
+        Diet_Data.create_rectangle(890, 345, 870, 25, fill="white")
+        water_amount = 0
+        for water in water_data:
+            split_water = water.split(":")
+            water_time = split_water[0] + ":" + split_water[1] + split_water[2]
+            water_amount = float(split_water[3]) + water_amount
+            water_y = 345 - ((water_amount/max_water) * 320)
+            if water_y >= 25:
+                Diet_Data.create_rectangle(890, 345, 870, water_y, fill="slate blue")
+                Diet_Data.create_line(870, water_y, 860, water_y, fill="white")
+                if  (float(split_water[3])) >= 4:
+                    Diet_Data.create_text(840, water_y, text=water_time,
+                                          font=("Times New Roman", 7, "bold"), fill="white")
+            else:
+                Diet_Data.create_text(875, 12, text="Tank Full",
+                                      font=("Times New Roman", 10, "bold"), fill="white")
 
 
 def update_data_metrics():
@@ -732,9 +762,9 @@ def update_log_screen():
             wake = wake_data[0]
             split_wake = wake.split(":")
             Data_Log_Preview.create_text(60, 30, text=("Awoke at: "),
-                                         font=("Times New Roman", 8), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="cyan")
             Data_Log_Preview.create_text(110, 30, text=(split_wake[0] + ":" + split_wake[1] + split_wake[2]),
-                                         font=("Times New Roman", 8), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="cyan")
             Data_Log_Preview.update()
             Awoke.delete(0, "end")
             Awoke.insert(0, (split_wake[0] + ":" + split_wake[1]))
@@ -751,9 +781,9 @@ def update_log_screen():
             sleep = sleep_data[0]
             split_sleep = sleep.split(":")
             Data_Log_Preview.create_text(60, 50, text=("Asleep at: "),
-                                         font=("Times New Roman", 8), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="cyan")
             Data_Log_Preview.create_text(110, 50, text=(split_sleep[0] + ":" + split_sleep[1] + split_sleep[2]),
-                                         font=("Times New Roman", 8), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="cyan")
             Data_Log_Preview.update()
             Asleep.delete(0, "end")
             Asleep.insert(0, (split_sleep[0] + ":" + split_sleep[1]))
@@ -980,17 +1010,89 @@ Age.insert(0, "24")
 Age.config(state="readonly")
 
 #Weight Control
-Graphing.create_text(385, 14, text="Weight Control:", font=("Times New Roman", 12))
+Graphing.create_text(170, 14, text="Weight Control:", font=("Times New Roman", 12))
 Maintain_Weight = tkinter.Spinbox(Diet_Data_Metrics, values=("None", "Model One", "Model Two", "Model Three"),
                                   width=15, state="readonly", command=update_data_metrics)
-Maintain_Weight.place(x=1155, y=10)
+Maintain_Weight.place(x=940, y=10)
 
-Graphing.create_text(394, 38, text="Weight Loss:", font=("Times New Roman", 12))
+Graphing.create_text(179, 38, text="Weight Loss:", font=("Times New Roman", 12))
 Lose_Weight = tkinter.Spinbox(Diet_Data_Metrics, values=("None", "Model One", "Model Two", "Model Three"),
                                   width=15, state="readonly", command=update_data_metrics)
-Lose_Weight.place(x=1155, y=35)
+Lose_Weight.place(x=940, y=35)
+
+def clear_water():
+    # fetch data
+    day_fetch = str(Day.get())
+    month_fetch = str(Month.get())
+    year_fetch = str(Year.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    water_log = "/water log.txt"
+    if path.exists(polyfile + polyfile_dir + water_log):
+        pull_list = open(polyfile + polyfile_dir + water_log, "r", encoding='utf8')
+        water_stuff = pull_list.read().splitlines()
+        pull_list.close()
+        if len(water_stuff) > 0:
+            water_stuff.pop()
+            push_list = open(polyfile + polyfile_dir + water_log, "w", encoding='utf8')
+            for data in water_stuff:
+                push_list.write(data + "\n")
+            push_list.close()
+            update_data_metrics()
 
 
+def store_water():
+    #fetch data
+    water_time = Water_Time.get()
+    water_cycle = Water_Cycle.get()
+    water_amount = Water_Amount.get()
+    day_fetch = str(Day.get())
+    month_fetch = str(Month.get())
+    year_fetch = str(Year.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    water_log = "/water log.txt"
+    #Validate and store
+    try:
+        split = water_time.split(":")
+        int_check_one = int(split[0])
+        int_check_two = int(split[1])
+        if len(split) == 2:
+            if (int_check_one > 0) and (int_check_two >= 0) and (int_check_one <= 12) and (int_check_two <= 59):
+                store_wata = open(polyfile + polyfile_dir + water_log, "a", encoding='utf8')
+                store_wata.write(water_time + ":" + water_cycle + ":" + water_amount + "\n")
+                store_wata.close()
+                update_data_metrics()
+            else:
+                Water_Time.delete(0, "end")
+                Water_Time.insert(0, "err")
+        else:
+            Water_Time.delete(0, "end")
+            Water_Time.insert(0, "err")
+    except:
+        Water_Time.delete(0, "end")
+        Water_Time.insert(0, "err")
+
+#Water Data Input
+Water_Canvas.create_text(24, 14, text="Time:", font=("Times New Roman", 12))
+Water_Canvas.create_text(38, 39, text="Quantity:", font=("Times New Roman", 12))
+Water_Canvas.create_text(114, 39, text="(OZ.)", font=("Times New Roman", 10))
+Water_Time = tkinter.Entry(Diet_Data_Metrics, width=5)
+Water_Time.place(x=1100, y=10)
+Water_Time.insert(0, "12:00")
+Water_Cycle = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="readonly")
+Water_Cycle.place(x=1135, y=10)
+Water_Amount = tkinter.Spinbox(Diet_Data_Metrics, width=2, from_=1, to=24, state="normal")
+Water_Amount.delete(0, "end")
+Water_Amount.insert(0, "8")
+Water_Amount.config(state="readonly")
+Water_Amount.place(x=1125, y=35)
+
+Log_Water = tkinter.Button(Diet_Data_Metrics, text="Add Water", command=store_water)
+Log_Water['font'] = small_font
+Log_Water.place(x=1190, y=8)
+
+Clear_Water = tkinter.Button(Diet_Data_Metrics, text="clear", command=clear_water)
+Clear_Water['font'] = smaller_font
+Clear_Water.place(x=1211, y=36)
 
 #Sleep data INPUT
 sleep_section = tkinter.Canvas(Diet_Data_Metrics, width=340, height=65, background="lightblue")
