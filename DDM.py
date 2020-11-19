@@ -18,8 +18,8 @@ root.resizable(0, 0)
 TabControl = ttk.Notebook(root)
 Diet_Data_Metrics = ttk.Frame(TabControl)
 Sleep_Data_Metrics = ttk.Frame(TabControl)
-TabControl.add(Diet_Data_Metrics, text="Daily Log", padding=3)
-TabControl.add(Sleep_Data_Metrics, text="Sleep Analysis", padding=3)
+TabControl.add(Diet_Data_Metrics, text="Main Log", padding=3)
+TabControl.add(Sleep_Data_Metrics, text="Exercise Log", padding=3)
 TabControl.pack(expand=1, fill="both")
 
 #Locate and Create Database Directory
@@ -258,17 +258,9 @@ def plot_food_averages():
         while avg_graph != 0:
             point_one = avg_graph
             point_two = avg_graph - 1
-            print(point_two)
             Diet_Data.create_line(average_x[point_one], average_y[point_one], average_x[point_two], average_y[point_two],
                                   fill="green")
             avg_graph = avg_graph - 1
-
-
-
-
-
-
-
 
 def Wake_Duration():
     # data fetch
@@ -404,6 +396,77 @@ def Wake_Duration():
             Diet_Data.create_text(216, 75, text=Average_Sleep_Duration,
                                   fill="cyan", font=("Times New Roman", 10, "bold"))
 
+def weightcontrol_model_three():
+    day_fetch = str(Day.get())
+    month_fetch = str(Month.get())
+    year_fetch = str(Year.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    W_H = "/Weight and Height.txt"
+    if path.exists(polyfile + polyfile_dir + W_H):
+        fetch = open(polyfile + polyfile_dir + W_H, "r", encoding='utf8')
+        data = fetch.read()
+        fetch.close()
+        data_split = data.split(":")
+        Weight = float(data_split[0])
+        Height = float(data_split[1])
+    else:
+        Weight = 100
+        Height = 1.72
+    age = float(Age.get())
+    if gender == 1:
+        BMR = 66.47 + (13.75 * Weight) + (5.003 * (Height * 100)) - (6.755 * age)
+    else:
+        BMR = 655.1 + (9.563 * Weight) + (1.85 * (Height * 100)) - (4.676 * age)
+    BMR = round(BMR, 2)
+    max_calories = (BMR * 1.25) - 300
+    snack = 100
+    snack_y = 500 - ((snack/100)*25)
+    meal = (max_calories/3) * 0.55
+    meal_y = 500 - ((meal/100)*25)
+    sub_meal =  (max_calories/3) * 0.45
+    sub_meal_y = 500 - ((sub_meal/100)*25)
+    snack_one = 100
+    meal_one = 175
+    sub_meal_one = 275
+    snack_two = 350
+    meal_two = 425
+    sub_meal_two = 525
+    snack_three = 600
+    meal_three = 675
+    sub_meal_three = 775
+
+    #plot meals
+    Diet_Data.create_text(snack_one, snack_y-10, text="Snack")
+    Diet_Data.create_text(meal_one, meal_y-10, text="Meal One")
+    Diet_Data.create_oval(snack_one-3, snack_y-3, snack_one+3, snack_y-3, fill="blue")
+    Diet_Data.create_oval(meal_one-3, meal_y-3, meal_one+3, meal_y+3, fill="blue")
+    Diet_Data.create_line(snack_one, snack_y, meal_one, meal_y, fill="orange")
+    Diet_Data.create_text(sub_meal_one, sub_meal_y-10, text="Sub-Meal One")
+    Diet_Data.create_oval(sub_meal_one-3, sub_meal_y-3, sub_meal_one+3, sub_meal_y+3, fill="blue")
+    Diet_Data.create_line(meal_one, meal_y, sub_meal_one, sub_meal_y, fill="orange")
+    Diet_Data.create_text(snack_two, snack_y-10, text="Snack")
+    Diet_Data.create_oval(snack_two-3, snack_y-3, snack_two+3, snack_y+3, fill="blue")
+    Diet_Data.create_line(sub_meal_one, sub_meal_y, snack_two, snack_y, fill="orange")
+    Diet_Data.create_text(meal_two, meal_y-10, text="Meal Two")
+    Diet_Data.create_oval(meal_two-3, meal_y-3, meal_two+3, meal_y+3, fill="blue")
+    Diet_Data.create_line(snack_two, snack_y, meal_two, meal_y, fill="orange")
+    Diet_Data.create_text(sub_meal_two, sub_meal_y-10, text="Sub-Meal Two")
+    Diet_Data.create_oval(sub_meal_two-3, sub_meal_y-3, sub_meal_two+3, sub_meal_y+3, fill="blue")
+    Diet_Data.create_line(meal_two, meal_y, sub_meal_two, sub_meal_y, fill="orange")
+    Diet_Data.create_text(snack_three, snack_y-10, text="Snack")
+    Diet_Data.create_oval(snack_three-3, snack_y-3, snack_three+3, snack_y+3, fill="blue")
+    Diet_Data.create_line(sub_meal_two, sub_meal_y, snack_three, snack_y, fill="orange")
+    Diet_Data.create_text(meal_three, meal_y-10, text="Meal Three")
+    Diet_Data.create_oval(meal_three-3, meal_y-3, meal_three+3, meal_y+3, fill="blue")
+    Diet_Data.create_line(snack_three, snack_y, meal_three, meal_y, fill="orange")
+    Diet_Data.create_text(sub_meal_three, sub_meal_y-10, text="Sub-Meal Three")
+    Diet_Data.create_oval(sub_meal_three-3, sub_meal_y-3, sub_meal_three+3, sub_meal_y+3, fill="blue")
+    Diet_Data.create_line(meal_three, meal_y, sub_meal_three, sub_meal_y, fill="orange")
+
+    Diet_Data.update()
+
+
+
 def weightcontrol_model_two():
     day_fetch = str(Day.get())
     month_fetch = str(Month.get())
@@ -426,7 +489,7 @@ def weightcontrol_model_two():
     else:
         BMR = 655.1 + (9.563 * Weight) + (1.85 * (Height * 100)) - (4.676 * age)
     BMR = round(BMR, 2)
-    max_calories = (BMR * 1.2) - 300
+    max_calories = (BMR * 1.25) - 300
     meal_value = max_calories/3
     snack_value = 100
     snack_y = 500 - ((snack_value/100)*25)
@@ -588,6 +651,7 @@ def Calculate_BMI():
                 colour = "red"
             else:
                 colour = "lime"
+            Average_Calorie_Intake = round(Average_Calorie_Intake, 2)
             Diet_Data.create_text(360, 15, text="Average Calorie Intake =",
                                   font=("Times New Roman", 10, "bold"), fill="lime")
             Diet_Data.create_text(468, 15, text=(str(Average_Calorie_Intake) + " (cal)"),
@@ -617,7 +681,9 @@ def update_data_metrics():
     bulid_axis()
     Wake_Duration()
     Calculate_BMI()
-    plot_food_averages()
+    #show averages
+    if Average_Calc == 1:
+        plot_food_averages()
     #fetch weight control data
     dummy = 0
     Weight_Control = Maintain_Weight.get()
@@ -626,9 +692,7 @@ def update_data_metrics():
     elif Weight_Control == "Model Two":
         weightcontrol_model_two()
     elif Weight_Control == "Model Three":
-        dummy = dummy + 1
-    else:
-        dummy = dummy + 1
+        weightcontrol_model_three()
 
 def update_log_screen():
     #Clear Canvas to Initialize
@@ -891,6 +955,21 @@ Male.select()
 Female = tkinter.Checkbutton(Diet_Data_Metrics, text="Female", command=H_1)
 Female['font'] = smaller_font
 Female.place(x=590, y=33)
+
+#Show Averages
+Average_Calc = 1
+def Calc_Averages():
+    global Average_Calc
+    if Average_Calc == 1:
+        Average_Calc = 0
+    else:
+        Average_Calc = 1
+    update_data_metrics()
+
+Show_Averages = tkinter.Checkbutton(Diet_Data_Metrics, text="Show Averages", command=Calc_Averages)
+Show_Averages['font'] = small_font
+Show_Averages.place(x=730, y=20)
+Show_Averages.select()
 
 #Set Age
 Weight_Control_Canvas.create_text(310, 25, text="Age:", font=("Times New Roman", 12))
