@@ -38,19 +38,19 @@ def cleanup_empty_directories():
             files = [f.path for f in os.scandir(directory) if f.is_file()]
             if len(files) == 0:
                 os.rmdir(directory)
-
 cleanup_empty_directories()
+
 #Weight Controls
 Weight_Control_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=360, height=50, background="pink")
-Weight_Control_Canvas.place(x=355, y=5)
+Weight_Control_Canvas.place(x=680, y=5)
 
-#Graph Controls
-Graphing = tkinter.Canvas(Diet_Data_Metrics, width=330, height=50, background="LightSalmon")
-Graphing.place(x=720, y=5)
+#Weight Graph Controls
+Graphing = tkinter.Canvas(Diet_Data_Metrics, width=215, height=50, background="LightSalmon")
+Graphing.place(x=1045, y=5)
 
 #Log Water Intake Canvas
-Water_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=205, height=50, background="Light Slate Blue")
-Water_Canvas.place(x=1055, y=5)
+Water_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=340, height=50, background="skyblue")
+Water_Canvas.place(x=5, y=60)
 
 #Diet Data Canvas
 Diet_Data = tkinter.Canvas(Diet_Data_Metrics, width=900, height=535, background="grey", bd=3, relief='sunken')
@@ -172,6 +172,13 @@ def bulid_axis():
                 else:
                     colour = "green"
                 Diet_Data.create_oval(x_point-6, y_point-6, x_point+6, y_point+6, fill=colour)
+                if Guide_Status == 1:
+                    if y_point < 300:
+                        colour = "red"
+                    else:
+                        colour = "lime"
+                    Diet_Data.create_line(x_point, y_point, x_point, 500, fill=colour, dash=(3, 1))
+                    Diet_Data.create_line(x_point, y_point, 50, y_point, fill=colour, dash=(3, 1))
                 Diet_Data.update()
             line_count = (len(food_data_points)) - 1
             while line_count != 0:
@@ -287,8 +294,8 @@ def Wake_Duration():
     # Set Wake Point and Sleep Point ----store wake duration
     if real_time == True:
         Diet_Data.create_text(50, 532, text=(str(hour_start) + ":" + min_start + am_pm_start),
-                              font=("Times New Roman", 8, "bold"), fill="cyan")
-        Diet_Data.create_line(50, 500, 50, 520, fill="cyan", width=2)
+                              font=("Times New Roman", 8, "bold"), fill="purple")
+        Diet_Data.create_line(50, 500, 50, 520, fill="purple", width=2)
         sleep_log = "/sleep_log.txt"
         if path.exists(polyfile + polyfile_dir + sleep_log):
             check_sleep = open(polyfile + polyfile_dir + sleep_log, "r", encoding='utf8')
@@ -300,7 +307,9 @@ def Wake_Duration():
             sleep_min = int(sleep_splice[1])
             sleep_cycle = sleep_splice[2]
             if am_pm_start == sleep_cycle:
-                if sleep_hr > hour_start:
+                if (sleep_hr > hour_start) and (sleep_hr == 12):
+                    sleep_hr_mag = 24 - hour_start
+                elif (sleep_hr > hour_start):
                     sleep_hr_mag = abs(hour_start - sleep_hr)
                 else:
                     sleep_hr_mag = 24 - (hour_start - sleep_hr)
@@ -327,18 +336,18 @@ def Wake_Duration():
                 sleep_min_mag = round(sleep_min_mag, 2)
                 wake_duration = str(sleep_hr_mag) + "hrs & " + str(sleep_min_mag) + "mins"
             Diet_Data.create_text(sleep_x, 532, text=sleep_print_str,
-                                  font=("Times New Roman", 8, "bold"), fill="cyan")
-            Diet_Data.create_text(65, 45, text=("Wake Duration: "),
-                                  fill="cyan", font=("Times New Roman", 10, "bold"))
-            if sleep_hr_mag <= 16:
-                Diet_Data.create_text(162, 45, text=wake_duration,
-                                      fill="cyan", font=("Times New Roman", 10, "bold"))
-                Diet_Data.create_line(sleep_x, 500, sleep_x, 520, width=2, fill="cyan")
+                                  font=("Times New Roman", 8, "bold"), fill="purple")
+            Diet_Data.create_text(355, 45, text=("Wake Duration: "),
+                                  fill="purple", font=("Times New Roman", 10, "bold"))
+            if sleep_hr_mag < 16:
+                Diet_Data.create_text(450, 45, text=wake_duration,
+                                      fill="purple", font=("Times New Roman", 10, "bold"))
+                Diet_Data.create_line(sleep_x, 500, sleep_x, 520, width=2, fill="purple")
             else:
-                Diet_Data.create_text(162, 45, text=wake_duration,
-                                      fill="navy", font=("Times New Roman", 10, "bold"))
-                Diet_Data.create_line(850, 500, sleep_x, 500, fill="navy", dash=(3, 1))
-                Diet_Data.create_line(sleep_x, 500, sleep_x, 520, width=2, fill="navy")
+                Diet_Data.create_text(450, 45, text=wake_duration,
+                                      fill="red", font=("Times New Roman", 10, "bold"))
+                Diet_Data.create_line(850, 500, sleep_x, 500, fill="red", dash=(3, 1))
+                Diet_Data.create_line(sleep_x, 500, sleep_x, 520, width=2, fill="red")
             # wake duration store
             wake_duration_log = "/wake_duration.txt"
             wake_dur_store = open(polyfile + polyfile_dir + wake_duration_log, "w", encoding='utf8')
@@ -382,10 +391,10 @@ def Wake_Duration():
             average_hours = round(average_hours, 2)
             average_mins = round(average_mins, 2)
             Average_Wake_Duration = str(average_hours) + "hrs & " + str(average_mins) + "mins"
-            Diet_Data.create_text(89, 60, text=("Average Wake Duration: "),
-                                  fill="cyan", font=("Times New Roman", 10, "bold"))
-            Diet_Data.create_text(220, 60, text=Average_Wake_Duration,
-                                  fill="cyan", font=("Times New Roman", 10, "bold"))
+            Diet_Data.create_text(380, 60, text=("Average Wake Duration: "),
+                                  fill="purple", font=("Times New Roman", 10, "bold"))
+            Diet_Data.create_text(513, 60, text=Average_Wake_Duration,
+                                  fill="purple", font=("Times New Roman", 10, "bold"))
             #Average Sleep Duration
             avg_hours = 24 - average_hours
             avg_mins = 0 - average_mins
@@ -395,10 +404,10 @@ def Wake_Duration():
             avg_hours = round(avg_hours, 2)
             avg_mins = round(avg_mins, 2)
             Average_Sleep_Duration = str(avg_hours) + "hrs & " + str(avg_mins) + "mins"
-            Diet_Data.create_text(87, 75, text=("Average Sleep Duration: "),
-                                  fill="cyan", font=("Times New Roman", 10, "bold"))
-            Diet_Data.create_text(216, 75, text=Average_Sleep_Duration,
-                                  fill="cyan", font=("Times New Roman", 10, "bold"))
+            Diet_Data.create_text(378, 75, text=("Average Sleep Duration: "),
+                                  fill="purple", font=("Times New Roman", 10, "bold"))
+            Diet_Data.create_text(507, 75, text=Average_Sleep_Duration,
+                                  fill="purple", font=("Times New Roman", 10, "bold"))
 
 def weightcontrol_model_three():
     day_fetch = str(Day.get())
@@ -609,8 +618,8 @@ def Calculate_BMI():
         Height = float(data_split[1])
         BMI = Weight/(Height**2)
         BMI = round(BMI, 2)
-        Diet_Data.create_text(35, 15, text="BMI =", font=("Times New Roman", 10, "bold"), fill="pink")
-        Diet_Data.create_text(80, 15, text=str(BMI), font=("Times New Roman", 10, "bold"), fill="pink")
+        Diet_Data.create_text(325, 15, text="BMI =", font=("Times New Roman", 10, "bold"), fill="pink")
+        Diet_Data.create_text(365, 15, text=str(BMI), font=("Times New Roman", 10, "bold"), fill="pink")
         #calculate BMR
         age = float(Age.get())
         if gender == 1:
@@ -618,19 +627,19 @@ def Calculate_BMI():
         else:
             BMR = 655.1 + (9.563*Weight) + (1.85*(Height*100)) - (4.676*age)
         BMR = round(BMR, 2)
-        Diet_Data.create_text(37, 30, text="BMR =", font=("Times New Roman", 10, "bold"), fill="pink")
-        Diet_Data.create_text(106, 30, text=str(BMR) + " (cal)", font=("Times New Roman", 10, "bold"), fill="pink")
+        Diet_Data.create_text(327, 30, text="BMR =", font=("Times New Roman", 10, "bold"), fill="pink")
+        Diet_Data.create_text(390, 30, text=str(BMR) + " (cal)", font=("Times New Roman", 10, "bold"), fill="pink")
         recc_calories = (BMR*1.25)
         weight_loss = (recc_calories*0.6)
         weight_loss = round(weight_loss, 2)
         recc_calories = round(recc_calories, 2)
-        Diet_Data.create_text(379, 45, text="Recommended Calorie Intake = ",
+        Diet_Data.create_text(689, 45, text="Recommended Calorie Intake = ",
                               font=("Times New Roman", 10, "bold"), fill="orange")
-        Diet_Data.create_text(505, 45, text=(str(recc_calories) + " (cal)"),
+        Diet_Data.create_text(820, 45, text=(str(recc_calories) + " (cal)"),
                               font=("Times New Roman", 10, "bold"), fill="orange")
-        Diet_Data.create_text(403, 60, text="Recommended Intake for Weight Loss = ",
+        Diet_Data.create_text(713, 60, text="Recommended Intake for Weight Loss = ",
                               font=("Times New Roman", 10, "bold"), fill="white")
-        Diet_Data.create_text(553, 60, text=(str(weight_loss) + " (cal)"),
+        Diet_Data.create_text(863, 60, text=(str(weight_loss) + " (cal)"),
                               font=("Times New Roman", 10, "bold"), fill="white")
         #Average Caloric Intake
         cal_total = "Calorie Total.txt"
@@ -656,9 +665,9 @@ def Calculate_BMI():
             else:
                 colour = "lime"
             Average_Calorie_Intake = round(Average_Calorie_Intake, 2)
-            Diet_Data.create_text(360, 15, text="Average Calorie Intake =",
+            Diet_Data.create_text(670, 15, text="Average Calorie Intake =",
                                   font=("Times New Roman", 10, "bold"), fill="lime")
-            Diet_Data.create_text(468, 15, text=(str(Average_Calorie_Intake) + " (cal)"),
+            Diet_Data.create_text(778, 15, text=(str(Average_Calorie_Intake) + " (cal)"),
                                   font=("Times New Roman", 10, "bold"), fill=colour)
         #Print Daily Total
         cal_path = "/Calorie Total.txt"
@@ -666,48 +675,117 @@ def Calculate_BMI():
             read_daily_val = open(polyfile + polyfile_dir + cal_path, "r", encoding='utf8')
             daily_total = read_daily_val.read()
             read_daily_val.close()
-            Diet_Data.create_text(350, 30, text="Daily Calorie Total =",
+            Diet_Data.create_text(660, 30, text="Daily Calorie Total =",
                                   font=("Times New Roman", 10, "bold"), fill="lime")
             total_check = int(daily_total)
             if total_check > recc_calories:
                 colour = "red"
             else:
                 colour = "lime"
-            Diet_Data.create_text(442, 30, text=(daily_total + " (cal)"),
+            Diet_Data.create_text(752, 30, text=(daily_total + " (cal)"),
                                   font=("Times New Roman", 10, "bold"), fill=colour)
     #display water log data
     if store_weight == 0:
-        max_water = 64
+        max_water = 64.00
     else:
         max_water = ((store_weight*2.2) * 0.666)
+    max_water = round(max_water, 2)
+    Diet_Data.create_text(79, 50, text="Max Water Intake =", font=("Times New Roman", 10, "bold"), fill="cyan")
+    Diet_Data.create_text(180, 50, text=(str(max_water) + " Ounces"),
+                          font=("Times New Roman", 10, "bold"), fill="cyan")
+    Recommended_Water_Intake = max_water * 0.6
+    Recommended_Water_Intake = round(Recommended_Water_Intake, 2)
+    recc_x = ((Recommended_Water_Intake / max_water * 250) + 25)
+    Diet_Data.create_text(107, 70, text="Recommended Water Intake =",
+                          font=("Times New Roman", 10, "bold"), fill="navy")
+    Diet_Data.create_text(230, 70, text=(str(Recommended_Water_Intake) + " Ounces"),
+                          font=("Times New Roman", 10, "bold"), fill="navy")
     water_log = "/water log.txt"
     if path.exists(polyfile + polyfile_dir + water_log):
         read_water = open(polyfile + polyfile_dir + water_log, "r", encoding='utf8')
         water_data = read_water.read().splitlines()
         read_water.close()
         #create water scale
-        Diet_Data.create_rectangle(890, 345, 870, 25, fill="white")
+        Diet_Data.create_rectangle(25, 20, 275, 35, fill="white")
         water_amount = 0
         for water in water_data:
             split_water = water.split(":")
             water_time = split_water[0] + ":" + split_water[1] + split_water[2]
             water_amount = float(split_water[3]) + water_amount
-            water_y = 345 - ((water_amount/max_water) * 320)
-            if water_y >= 25:
-                Diet_Data.create_rectangle(890, 345, 870, water_y, fill="slate blue")
-                Diet_Data.create_line(870, water_y, 860, water_y, fill="white")
-                if  (float(split_water[3])) >= 4:
-                    Diet_Data.create_text(840, water_y, text=water_time,
-                                          font=("Times New Roman", 7, "bold"), fill="white")
+            water_x = (((water_amount/max_water) * 250) + 25)
+            if water_x <= 275:
+                Diet_Data.create_rectangle(25, 20, water_x, 35, fill="cyan")
             else:
-                Diet_Data.create_text(875, 12, text="Tank Full",
-                                      font=("Times New Roman", 10, "bold"), fill="white")
+                Diet_Data.create_text(245, 28, text="Tank Full",
+                                      font=("Times New Roman", 10, "bold"), fill="navy")
+        Diet_Data.create_text(96, 28, text=("Daily Total = " + str(water_amount) + " Ounces"))
+        Diet_Data.create_line(recc_x, 17, recc_x, 38, width=2, fill="navy")
 
+def Keep_Hydrated():
+    #check for data
+    day_fetch = str(Day.get())
+    month_fetch = str(Month.get())
+    year_fetch = str(Year.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    water_log = "/water log.txt"
+    wake_log = "/wake_log.txt"
+    if path.exists(polyfile + polyfile_dir + wake_log):
+        begin = open(polyfile + polyfile_dir + wake_log, "r", encoding='utf8')
+        start_data = begin.read()
+        begin.close()
+        split_start = start_data.split(":")
+        start_hr = int(split_start[0])
+        start_min = int(split_start[1])
+        start_cycle = split_start[2]
+        if path.exists(polyfile + polyfile_dir + water_log):
+            read_water = open(polyfile + polyfile_dir + water_log, "r", encoding='utf8')
+            water_data = read_water.read().splitlines()
+            read_water.close()
+            for data in water_data:
+                split = data.split(":")
+                water_hr = int(split[0])
+                water_min = int(split[1])
+                water_cycle = split[2]
+                water_amount = int(split[3])
+                #determine hour and min magnitude
+                if (water_cycle == start_cycle) and (water_hr < start_hr):
+                    hr_mag = abs((water_hr +24) - start_hr)
+                    min_mag = water_min - start_min
+                    if min_mag < 0:
+                        hr_mag = hr_mag - 1
+                        min_mag = min_mag + 60
+                elif water_cycle == start_cycle:
+                    if water_hr == 12:
+                        hr_mag = ((water_hr + 12) - start_hr)
+                    else:
+                        hr_mag = abs(water_hr - start_hr)
+                    min_mag = water_min - start_min
+                    if min_mag < 0:
+                        hr_mag = hr_mag - 1
+                        min_mag = min_mag + 60
+                else:
+                    if water_hr < 12:
+                        hr_mag = (water_hr + 12) - start_hr
+                    else:
+                        hr_mag = water_hr - start_hr
+                    min_mag = water_min - start_min
+                    if min_mag < 0:
+                        hr_mag = hr_mag - 1
+                        min_mag = min_mag + 60
+
+                #calculate x and y values
+                water_x = 50 + (hr_mag*50) + ((min_mag/60)*50)
+                water_y = 500 - (water_amount*25)
+
+                #plot hydration
+                Diet_Data.create_rectangle(water_x-5, 500, water_x+5, water_y, fill="cyan")
 
 def update_data_metrics():
     #clear canvas to intialize
     Diet_Data.delete("all")
     Diet_Data.update()
+    if Hydro == 1:
+        Keep_Hydrated()
     bulid_axis()
     Wake_Duration()
     Calculate_BMI()
@@ -762,9 +840,9 @@ def update_log_screen():
             wake = wake_data[0]
             split_wake = wake.split(":")
             Data_Log_Preview.create_text(60, 30, text=("Awoke at: "),
-                                         font=("Times New Roman", 8, "bold"), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="purple")
             Data_Log_Preview.create_text(110, 30, text=(split_wake[0] + ":" + split_wake[1] + split_wake[2]),
-                                         font=("Times New Roman", 8, "bold"), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="purple")
             Data_Log_Preview.update()
             Awoke.delete(0, "end")
             Awoke.insert(0, (split_wake[0] + ":" + split_wake[1]))
@@ -781,9 +859,9 @@ def update_log_screen():
             sleep = sleep_data[0]
             split_sleep = sleep.split(":")
             Data_Log_Preview.create_text(60, 50, text=("Asleep at: "),
-                                         font=("Times New Roman", 8, "bold"), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="purple")
             Data_Log_Preview.create_text(110, 50, text=(split_sleep[0] + ":" + split_sleep[1] + split_sleep[2]),
-                                         font=("Times New Roman", 8, "bold"), fill="cyan")
+                                         font=("Times New Roman", 8, "bold"), fill="purple")
             Data_Log_Preview.update()
             Asleep.delete(0, "end")
             Asleep.insert(0, (split_sleep[0] + ":" + split_sleep[1]))
@@ -862,9 +940,9 @@ def update_log_screen():
 #Date Input
 Date_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=340, height=50, background="lightgrey")
 Date_Canvas.place(x=5, y=5)
-Date_Canvas.create_text(29, 26, text="Day:", font=("Times New Roman", 12))
-Date_Canvas.create_text(125, 26, text="Month:", font=("Times New Roman", 12))
-Date_Canvas.create_text(268, 26, text="Year:", font=("Times New Roman", 12))
+Date_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
+Date_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
+Date_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
 
 
 #create polyfile record
@@ -901,6 +979,17 @@ date_data_get = datetime.now()        #Fetch OS Time and Date Information
 day_get = date_data_get.day
 month_get = date_data_get.month
 year_get = str(date_data_get.year)
+hour_get = date_data_get.hour
+min_get = date_data_get.minute
+if min_get < 10:
+    min_get = "0" + str(min_get)
+if hour_get == 12:
+    cycle_get = "pm"
+elif hour_get > 12:
+    cycle_get = "pm"
+    hour_get = hour_get - 12
+else:
+    cycle_get = "am"
 
 Day = tkinter.Spinbox(Diet_Data_Metrics, width=3, from_=1, to=31, state="normal", command=polyfile_record)
 Day.place(x=50, y=22)
@@ -940,25 +1029,25 @@ def store_weight_height():
 
 
 Weight = tkinter.Spinbox(Diet_Data_Metrics, width=5, from_=0, to=200, state="normal", increment=0.1)
-Weight.place(x=410, y=10)
+Weight.place(x=733, y=10)
 Weight.delete(0, "end")
 Weight.insert(0, "100.0")
 Weight.config(state="readonly")
-Weight_Control_Canvas.create_text(30, 14, text="Weight:", font=("Times New Roman", 12))
-Weight_Control_Canvas.create_text(112, 14, text="(kg)", font=("Times New Roman", 10))
+Weight_Control_Canvas.create_text(28, 15, text="Weight:", font=("Comic Sans MS", 10))
+Weight_Control_Canvas.create_text(112, 14, text="(kg)", font=("Comic Sans MS", 10))
 
 Height = tkinter.Spinbox(Diet_Data_Metrics, width=5, from_=0, to=3, state="normal", increment=0.01)
-Height.place(x=410, y=34)
+Height.place(x=733, y=34)
 Height.delete(0, "end")
 Height.insert(0, "1.72")
 Height.config(state="readonly")
-Weight_Control_Canvas.create_text(30, 39, text="Height:", font=("Times New Roman", 12))
-Weight_Control_Canvas.create_text(122, 39, text="(meters)", font=("Times New Roman", 10))
+Weight_Control_Canvas.create_text(30, 38, text="Height:", font=("Comic Sans MS", 10))
+Weight_Control_Canvas.create_text(124, 37, text="(meters)", font=("Comic Sans MS", 10))
 
 small_font = font.Font(family="Comic Sans MS", size=8)
 Log_Weight_Height = tkinter.Button(Diet_Data_Metrics, text="Log Weight\n& Height", command=store_weight_height)
 Log_Weight_Height['font'] = small_font
-Log_Weight_Height.place(x=505, y=11)
+Log_Weight_Height.place(x=836, y=11)
 
 #Set Male/Female
 gender = 1
@@ -979,12 +1068,12 @@ def H_2():
 smaller_font = font.Font(family="Comic Sans MS", size=6, weight="bold")
 Male = tkinter.Checkbutton(Diet_Data_Metrics, text="Male", command=H_2)
 Male['font'] = smaller_font
-Male.place(x=594, y=10)
+Male.place(x=920, y=10)
 Male.select()
 
 Female = tkinter.Checkbutton(Diet_Data_Metrics, text="Female", command=H_1)
 Female['font'] = smaller_font
-Female.place(x=590, y=33)
+Female.place(x=916, y=33)
 
 #Show Averages
 Average_Calc = 1
@@ -996,29 +1085,58 @@ def Calc_Averages():
         Average_Calc = 1
     update_data_metrics()
 
-Show_Averages = tkinter.Checkbutton(Diet_Data_Metrics, text="Show Averages", command=Calc_Averages)
+Show_Averages = tkinter.Checkbutton(Diet_Data_Metrics, text="Plot Averages", command=Calc_Averages)
 Show_Averages['font'] = small_font
-Show_Averages.place(x=730, y=20)
+Show_Averages.place(x=50, y=200)
 Show_Averages.select()
 
+#Display Guides
+Guide_Status = 0
+def Display_Guides():
+    global Guide_Status
+    if Guide_Status == 0:
+        Guide_Status = 1
+    else:
+        Guide_Status = 0
+    update_data_metrics()
+
+Show_Guides = tkinter.Checkbutton(Diet_Data_Metrics, text="Display Guides", command=Display_Guides)
+Show_Guides['font'] = small_font
+Show_Guides.place(x=150, y=200)
+
+#Plot Hydration
+Hydro = 0
+def Plot_Hydration():
+    global Hydro
+    if Hydro == 0:
+        Hydro = 1
+    else:
+        Hydro = 0
+    update_data_metrics()
+
+plot_hydro = tkinter.Checkbutton(Diet_Data_Metrics, text="Plot\nHydration", command=Plot_Hydration)
+plot_hydro['font'] = small_font
+plot_hydro.place(x=263, y=67)
+
+
 #Set Age
-Weight_Control_Canvas.create_text(310, 25, text="Age:", font=("Times New Roman", 12))
+Weight_Control_Canvas.create_text(310, 26, text="Age:", font=("Comic Sans MS", 10))
 Age = tkinter.Spinbox(Diet_Data_Metrics, width=3, from_=12, to=120, state="normal", command=update_data_metrics)
-Age.place(x=680, y=22)
+Age.place(x=1005, y=22)
 Age.delete(0, "end")
 Age.insert(0, "24")
 Age.config(state="readonly")
 
-#Weight Control
-Graphing.create_text(170, 14, text="Weight Control:", font=("Times New Roman", 12))
+#Weight Control Graphs
+Graphing.create_text(57, 15, text="Weight Control:", font=("Comic Sans MS", 10))
 Maintain_Weight = tkinter.Spinbox(Diet_Data_Metrics, values=("None", "Model One", "Model Two", "Model Three"),
                                   width=15, state="readonly", command=update_data_metrics)
-Maintain_Weight.place(x=940, y=10)
+Maintain_Weight.place(x=1152, y=10)
 
-Graphing.create_text(179, 38, text="Weight Loss:", font=("Times New Roman", 12))
+Graphing.create_text(65, 40, text="Weight Loss:", font=("Comic Sans MS", 10))
 Lose_Weight = tkinter.Spinbox(Diet_Data_Metrics, values=("None", "Model One", "Model Two", "Model Three"),
                                   width=15, state="readonly", command=update_data_metrics)
-Lose_Weight.place(x=940, y=35)
+Lose_Weight.place(x=1152, y=35)
 
 def clear_water():
     # fetch data
@@ -1033,10 +1151,17 @@ def clear_water():
         pull_list.close()
         if len(water_stuff) > 0:
             water_stuff.pop()
-            push_list = open(polyfile + polyfile_dir + water_log, "w", encoding='utf8')
-            for data in water_stuff:
-                push_list.write(data + "\n")
-            push_list.close()
+            if len(water_stuff) > 0:
+                push_list = open(polyfile + polyfile_dir + water_log, "w", encoding='utf8')
+                for data in water_stuff:
+                    push_list.write(data + "\n")
+                push_list.close()
+                update_data_metrics()
+            else:
+                os.remove(polyfile + polyfile_dir + water_log)
+                update_data_metrics()
+        else:
+            os.remove(polyfile + polyfile_dir + water_log)
             update_data_metrics()
 
 
@@ -1072,33 +1197,37 @@ def store_water():
         Water_Time.insert(0, "err")
 
 #Water Data Input
-Water_Canvas.create_text(24, 14, text="Time:", font=("Times New Roman", 12))
-Water_Canvas.create_text(38, 39, text="Quantity:", font=("Times New Roman", 12))
-Water_Canvas.create_text(114, 39, text="(OZ.)", font=("Times New Roman", 10))
+Water_Canvas.create_text(24, 14, text="Time:", font=("Comic Sans MS", 10))
+Water_Canvas.create_text(38, 39, text="Quantity:", font=("Comic Sans MS", 10))
+Water_Canvas.create_text(114, 39, text="(OZ.)", font=("Comic Sans MS", 10))
 Water_Time = tkinter.Entry(Diet_Data_Metrics, width=5)
-Water_Time.place(x=1100, y=10)
-Water_Time.insert(0, "12:00")
-Water_Cycle = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="readonly")
-Water_Cycle.place(x=1135, y=10)
+Water_Time.place(x=50, y=65)
+Water_Time.delete(0, "end")
+Water_Time.insert(0, (str(hour_get) + ":" + str(min_get)))
+Water_Cycle = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="normal")
+Water_Cycle.place(x=88, y=65)
+Water_Cycle.delete(0, "end")
+Water_Cycle.insert(0, cycle_get)
+Water_Cycle.config(state="readonly")
 Water_Amount = tkinter.Spinbox(Diet_Data_Metrics, width=2, from_=1, to=24, state="normal")
 Water_Amount.delete(0, "end")
 Water_Amount.insert(0, "8")
 Water_Amount.config(state="readonly")
-Water_Amount.place(x=1125, y=35)
+Water_Amount.place(x=73, y=90)
 
 Log_Water = tkinter.Button(Diet_Data_Metrics, text="Add Water", command=store_water)
 Log_Water['font'] = small_font
-Log_Water.place(x=1190, y=8)
+Log_Water.place(x=148, y=75)
 
 Clear_Water = tkinter.Button(Diet_Data_Metrics, text="clear", command=clear_water)
-Clear_Water['font'] = smaller_font
-Clear_Water.place(x=1211, y=36)
+Clear_Water['font'] = small_font
+Clear_Water.place(x=220, y=75)
 
 #Sleep data INPUT
-sleep_section = tkinter.Canvas(Diet_Data_Metrics, width=340, height=65, background="lightblue")
-sleep_section.place(x=5, y=60)
-sleep_section.create_text(40, 20, text="Awoke at:", font=("Times New Roman", 12))
-sleep_section.create_text(40, 48, text="Asleep at:", font=("Times New Roman", 12))
+sleep_section = tkinter.Canvas(Diet_Data_Metrics, width=320, height=50, background="plum3")
+sleep_section.place(x=355, y=5)
+sleep_section.create_text(47, 13, text="Awoke at:", font=("Comic Sans MS", 10))
+sleep_section.create_text(205, 13, text="Asleep at:", font=("Comic Sans MS", 10))
 
 def Log_Wake():
     wake = Awoke.get()
@@ -1160,33 +1289,33 @@ def Log_Sleep():
         Asleep.delete(0, "end")
         Asleep.insert(0, "invalid")
 
-Awoke = tkinter.Entry(Diet_Data_Metrics, width=10)
-Awoke.place(x=80, y=70)
+Awoke = tkinter.Entry(Diet_Data_Metrics, width=5)
+Awoke.place(x=435, y=8)
 Awoke.insert(0, "12:00")
 Awoke_amp = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="readonly")
-Awoke_amp.place(x=150, y=70)
+Awoke_amp.place(x=473, y=8)
 
-Asleep = tkinter.Entry(Diet_Data_Metrics, width=10)
-Asleep.place(x=80, y=100)
+Asleep = tkinter.Entry(Diet_Data_Metrics, width=5)
+Asleep.place(x=590, y=8)
 Asleep.insert(0, "12:00")
 Asleep_amp = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="readonly")
-Asleep_amp.place(x=150, y=100)
+Asleep_amp.place(x=628, y=8)
 
 Log_Wake_Time = tkinter.Button(Diet_Data_Metrics, text="Log Wake Time", command=Log_Wake)
 Log_Wake_Time['font'] = small_font
-Log_Wake_Time.place(x=204, y=68)
+Log_Wake_Time.place(x=395, y=29)
 
 Log_Sleep_Time = tkinter.Button(Diet_Data_Metrics, text="Log Sleep Time", command=Log_Sleep)
 Log_Sleep_Time['font'] = small_font
-Log_Sleep_Time.place(x=204, y=97)
+Log_Sleep_Time.place(x=555, y=29)
 
 #Food Input
-food_section = tkinter.Canvas(Diet_Data_Metrics, width=340, height=100, background="lightgreen")
-food_section.place(x=5, y=130)
-food_section.create_text(69, 19, text="Food Name:", font=("Times New Roman", 12))
-food_section.create_text(80, 48, text="Calories:", font=("Times New Roman", 12))
-food_section.create_text(57, 78, text="Time Consumed:", font=("Times New Roman", 12))
-food_section.create_text(178, 48, text="(cal)", font=("Times New Roman", 10))
+food_section = tkinter.Canvas(Diet_Data_Metrics, width=340, height=75, background="lightgreen")
+food_section.place(x=5, y=115)
+food_section.create_text(45, 15, text="Food Name:", font=("Comic Sans MS", 10))
+food_section.create_text(54, 40, text="Calories:", font=("Comic Sans MS", 10))
+food_section.create_text(64, 65, text="Time:", font=("Comic Sans MS", 10))
+food_section.create_text(154, 40, text="(cal)", font=("Comic Sans MS", 10))
 
 def Log_Food_Data():
     #get input data
@@ -1252,24 +1381,27 @@ def ClearFood():
         update_log_screen()
 
 Food_Name = tkinter.Entry(Diet_Data_Metrics, width=30)
-Food_Name.place(x=115, y=140)
+Food_Name.place(x=90, y=120)
 
 Calories = tkinter.Entry(Diet_Data_Metrics, width=8)
-Calories.place(x=115, y=170)
+Calories.place(x=90, y=145)
 
-Time = tkinter.Entry(Diet_Data_Metrics, width=9)
-Time.place(x=115, y=200)
-Time.insert(0, "12:00")
-Time_amp = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="readonly")
-Time_amp.place(x=180, y=200)
+Time = tkinter.Entry(Diet_Data_Metrics, width=6)
+Time.place(x=90, y=170)
+Time.insert(0, (str(hour_get)+ ":" + str(min_get)))
+Time_amp = tkinter.Spinbox(Diet_Data_Metrics, width=3, values=("am", "pm"), state="normal")
+Time_amp.place(x=135, y=170)
+Time_amp.delete(0, "end")
+Time_amp.insert(0, cycle_get)
+Time_amp.config(state="readonly")
 
-Log_Food = tkinter.Button(Diet_Data_Metrics, text="Log Food Data", command=Log_Food_Data)
+Log_Food = tkinter.Button(Diet_Data_Metrics, text="Add Food", command=Log_Food_Data)
 Log_Food['font'] = small_font
-Log_Food.place(x=237, y=168)
+Log_Food.place(x=210, y=155)
 
 Clear_Item = tkinter.Button(Diet_Data_Metrics, text="clear", command=ClearFood)
 Clear_Item['font'] = small_font
-Clear_Item.place(x=261, y=198)
+Clear_Item.place(x=273, y=155)
 
 polyfile_record() #auto-creates a file directory and calls the log-screen to update
 
