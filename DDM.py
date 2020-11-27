@@ -102,6 +102,11 @@ def bulid_axis():
     while Time_datapoints != 0:
         Diet_Data.create_line(Time_x, 500, Time_x, 510, width=2, fill="lime")
         if real_time == True:
+            if hour_start == 11:
+                if am_pm_start == "am":
+                    am_pm_start = "pm"
+                else:
+                    am_pm_start = "am"
             Diet_Data.create_text(Time_x, 520, text=(str(hour_start + time_inc) + ":" + min_start + am_pm_start),
                                   font=("Times New Roman", 7, "bold"))
             if (hour_start + time_inc) == 12:
@@ -722,6 +727,14 @@ def Calculate_BMI():
         Diet_Data.create_line(recc_x, 17, recc_x, 38, width=2, fill="navy")
 
 def Keep_Hydrated():
+    #build y-hydration values
+    ounce = 1
+    while ounce != 13:
+        o_line = 500 - (25*ounce)
+        Diet_Data.create_text(12, o_line, text=str(ounce), fill="cyan",
+                              font=("Comic Sans MS", 10, "bold"))
+        ounce = ounce + 1
+
     #check for data
     day_fetch = str(Day.get())
     month_fetch = str(Month.get())
@@ -779,6 +792,9 @@ def Keep_Hydrated():
 
                 #plot hydration
                 Diet_Data.create_rectangle(water_x-5, 500, water_x+5, water_y, fill="cyan")
+                if Guide_Status == 1:
+                    Diet_Data.create_line(water_x, water_y, 50, water_y, fill="cyan", dash=(3, 1))
+
 
 def update_data_metrics():
     #clear canvas to intialize
@@ -937,13 +953,19 @@ def update_log_screen():
     update_data_metrics()
 
 
-#Date Input
+#Date Canvas Diet Data Metrics
 Date_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=340, height=50, background="lightgrey")
 Date_Canvas.place(x=5, y=5)
 Date_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
 Date_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
 Date_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
 
+#Date_Canvas Nutrition Data Metrics
+DateN_Canvas = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=50, background="lightgrey")
+DateN_Canvas.place(x=5, y=5)
+DateN_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
+DateN_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
+DateN_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
 
 #create polyfile record
 def polyfile_record():
@@ -991,6 +1013,7 @@ elif hour_get > 12:
 else:
     cycle_get = "am"
 
+#Diet Data Metrics Date Setup
 Day = tkinter.Spinbox(Diet_Data_Metrics, width=3, from_=1, to=31, state="normal", command=polyfile_record)
 Day.place(x=50, y=22)
 Day.delete(0, "end")
@@ -1011,6 +1034,65 @@ Year.place(x=293, y=22)
 Year.delete(0, "end")
 Year.insert(0, year_get)
 Year.config(state="readonly")
+
+#Nutrition Data Metrics Date Setup
+DayN = tkinter.Spinbox(Nutrition_Data_Metrics, width=3, from_=1, to=31, state="normal")
+DayN.place(x=50, y=22)
+DayN.delete(0, "end")
+DayN.insert(0, day_get)
+DayN.config(state="readonly")
+
+MonthN = tkinter.Spinbox(Nutrition_Data_Metrics, width=10, values=("January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"), state="normal")
+MonthN.place(x=154, y=22)
+MonthN_List = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"]
+MonthN.delete(0, "end")
+MonthN.insert(0, Month_List[month_get-1])
+MonthN.config(state="readonly")
+
+YearN = tkinter.Spinbox(Nutrition_Data_Metrics, width=4, from_=2020, to=2100, state="normal")
+YearN.place(x=293, y=22)
+YearN.delete(0, "end")
+YearN.insert(0, year_get)
+YearN.config(state="readonly")
+
+#Nutrition Data Metrics Macronutrients Input
+Macronutrients = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=200, background="lightsalmon")
+Macronutrients.place(x=5, y=60)
+Macronutrients.create_text(170, 20, text="MACRONUTRIENTS", font=("Comic Sans MS", 10))
+Macronutrients.create_text(95, 50, text="Protein:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(75, 80, text="Carbohydrate:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(99, 110, text="Fiber:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(76, 140, text="Linoleic Acid:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(70, 170, text="α-Linoleic Acid:", font=("Comic Sans MS", 10))
+
+Protein = tkinter.Spinbox(Nutrition_Data_Metrics, width=3, from_=0, to=200, state="readonly")
+Protein.place(x=127, y=101)
+
+#Nutrition Data Metrics Vitamins Input
+Vitamins = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=500, background="skyblue3")
+Vitamins.place(x=350, y=5)
+Vitamins.create_text(170, 20, text="VITAMINS", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 50, text="Vitamin A:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 80, text="Vitamin C:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 110, text="Vitamin D:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 140, text="Vitamin E:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 170, text="Vitamin K:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 200, text="Thiamin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 230, text="Riboflavin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 260, text="Niacin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 290, text="Vitamin B6:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 320, text="Folate:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 350, text="Vitamin B12:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 380, text="Pantothenic Acid:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 410, text="Biotin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 440, text="Choline:", font=("Comic Sans MS", 10))
+
+
+#Nutrition Data Metrics Elements Input
+Elements = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=250, background="mistyrose2")
+Elements.place(x=695, y=5)
 
 #Input Weight And Height
 def store_weight_height():
@@ -1209,7 +1291,7 @@ Water_Cycle.place(x=88, y=65)
 Water_Cycle.delete(0, "end")
 Water_Cycle.insert(0, cycle_get)
 Water_Cycle.config(state="readonly")
-Water_Amount = tkinter.Spinbox(Diet_Data_Metrics, width=2, from_=1, to=24, state="normal")
+Water_Amount = tkinter.Spinbox(Diet_Data_Metrics, width=2, from_=1, to=12, state="normal")
 Water_Amount.delete(0, "end")
 Water_Amount.insert(0, "8")
 Water_Amount.config(state="readonly")
