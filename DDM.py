@@ -40,9 +40,17 @@ def cleanup_empty_directories():
                 os.rmdir(directory)
 cleanup_empty_directories()
 
+#Declare Fonts
+small_font = font.Font(family="Comic Sans MS", size=8)
+smaller_font = font.Font(family="Comic Sans MS", size=6, weight="bold")
+
 #Weight Controls
 Weight_Control_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=360, height=50, background="pink")
 Weight_Control_Canvas.place(x=680, y=5)
+
+#Weight, Age, Sex Controls for Nutrition Data Metrics
+WeightN_Control_Canvas = tkinter.Canvas(Nutrition_Data_Metrics, width=685, height=50, background="pink")
+WeightN_Control_Canvas.place(x=350, y=5)
 
 #Weight Graph Controls
 Graphing = tkinter.Canvas(Diet_Data_Metrics, width=215, height=50, background="LightSalmon")
@@ -952,6 +960,34 @@ def update_log_screen():
 
     update_data_metrics()
 
+#Show Averages
+Average_Calc = 1
+def Calc_Averages():
+    global Average_Calc
+    if Average_Calc == 1:
+        Average_Calc = 0
+    else:
+        Average_Calc = 1
+    update_data_metrics()
+
+Show_Averages = tkinter.Checkbutton(Diet_Data_Metrics, text="Plot Averages", offvalue=2, onvalue=3, command=Calc_Averages)
+Show_Averages['font'] = small_font
+Show_Averages.place(x=50, y=200)
+Show_Averages.select()
+
+#Display Guides
+Guide_Status = 0
+def Display_Guides():
+    global Guide_Status
+    if Guide_Status == 0:
+        Guide_Status = 1
+    else:
+        Guide_Status = 0
+    update_data_metrics()
+
+Show_Guides = tkinter.Checkbutton(Diet_Data_Metrics, text="Display Guides", offvalue=2, onvalue=3, command=Display_Guides)
+Show_Guides['font'] = small_font
+Show_Guides.place(x=150, y=200)
 
 #Date Canvas Diet Data Metrics
 Date_Canvas = tkinter.Canvas(Diet_Data_Metrics, width=340, height=50, background="lightgrey")
@@ -1035,65 +1071,6 @@ Year.delete(0, "end")
 Year.insert(0, year_get)
 Year.config(state="readonly")
 
-#Nutrition Data Metrics Date Setup
-DayN = tkinter.Spinbox(Nutrition_Data_Metrics, width=3, from_=1, to=31, state="normal")
-DayN.place(x=50, y=22)
-DayN.delete(0, "end")
-DayN.insert(0, day_get)
-DayN.config(state="readonly")
-
-MonthN = tkinter.Spinbox(Nutrition_Data_Metrics, width=10, values=("January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-             "November", "December"), state="normal")
-MonthN.place(x=154, y=22)
-MonthN_List = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-             "November", "December"]
-MonthN.delete(0, "end")
-MonthN.insert(0, Month_List[month_get-1])
-MonthN.config(state="readonly")
-
-YearN = tkinter.Spinbox(Nutrition_Data_Metrics, width=4, from_=2020, to=2100, state="normal")
-YearN.place(x=293, y=22)
-YearN.delete(0, "end")
-YearN.insert(0, year_get)
-YearN.config(state="readonly")
-
-#Nutrition Data Metrics Macronutrients Input
-Macronutrients = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=200, background="lightsalmon")
-Macronutrients.place(x=5, y=60)
-Macronutrients.create_text(170, 20, text="MACRONUTRIENTS", font=("Comic Sans MS", 10))
-Macronutrients.create_text(95, 50, text="Protein:", font=("Comic Sans MS", 10))
-Macronutrients.create_text(75, 80, text="Carbohydrate:", font=("Comic Sans MS", 10))
-Macronutrients.create_text(99, 110, text="Fiber:", font=("Comic Sans MS", 10))
-Macronutrients.create_text(76, 140, text="Linoleic Acid:", font=("Comic Sans MS", 10))
-Macronutrients.create_text(70, 170, text="α-Linoleic Acid:", font=("Comic Sans MS", 10))
-
-Protein = tkinter.Spinbox(Nutrition_Data_Metrics, width=3, from_=0, to=200, state="readonly")
-Protein.place(x=127, y=101)
-
-#Nutrition Data Metrics Vitamins Input
-Vitamins = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=500, background="skyblue3")
-Vitamins.place(x=350, y=5)
-Vitamins.create_text(170, 20, text="VITAMINS", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 50, text="Vitamin A:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 80, text="Vitamin C:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 110, text="Vitamin D:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 140, text="Vitamin E:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 170, text="Vitamin K:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 200, text="Thiamin:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 230, text="Riboflavin:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 260, text="Niacin:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 290, text="Vitamin B6:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 320, text="Folate:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 350, text="Vitamin B12:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 380, text="Pantothenic Acid:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 410, text="Biotin:", font=("Comic Sans MS", 10))
-Vitamins.create_text(70, 440, text="Choline:", font=("Comic Sans MS", 10))
-
-
-#Nutrition Data Metrics Elements Input
-Elements = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=250, background="mistyrose2")
-Elements.place(x=695, y=5)
-
 #Input Weight And Height
 def store_weight_height():
     #fetch data
@@ -1126,7 +1103,6 @@ Height.config(state="readonly")
 Weight_Control_Canvas.create_text(30, 38, text="Height:", font=("Comic Sans MS", 10))
 Weight_Control_Canvas.create_text(124, 37, text="(meters)", font=("Comic Sans MS", 10))
 
-small_font = font.Font(family="Comic Sans MS", size=8)
 Log_Weight_Height = tkinter.Button(Diet_Data_Metrics, text="Log Weight\n& Height", command=store_weight_height)
 Log_Weight_Height['font'] = small_font
 Log_Weight_Height.place(x=836, y=11)
@@ -1147,44 +1123,14 @@ def H_2():
     Male.select()
     update_data_metrics()
 
-smaller_font = font.Font(family="Comic Sans MS", size=6, weight="bold")
-Male = tkinter.Checkbutton(Diet_Data_Metrics, text="Male", command=H_2)
+Male = tkinter.Checkbutton(Diet_Data_Metrics, text="Male", offvalue=2, onvalue=3, command=H_2)
 Male['font'] = smaller_font
 Male.place(x=920, y=10)
-Male.select()
 
-Female = tkinter.Checkbutton(Diet_Data_Metrics, text="Female", command=H_1)
+Female = tkinter.Checkbutton(Diet_Data_Metrics, text="Female", offvalue=2, onvalue=3, command=H_1)
 Female['font'] = smaller_font
 Female.place(x=916, y=33)
 
-#Show Averages
-Average_Calc = 1
-def Calc_Averages():
-    global Average_Calc
-    if Average_Calc == 1:
-        Average_Calc = 0
-    else:
-        Average_Calc = 1
-    update_data_metrics()
-
-Show_Averages = tkinter.Checkbutton(Diet_Data_Metrics, text="Plot Averages", command=Calc_Averages)
-Show_Averages['font'] = small_font
-Show_Averages.place(x=50, y=200)
-Show_Averages.select()
-
-#Display Guides
-Guide_Status = 0
-def Display_Guides():
-    global Guide_Status
-    if Guide_Status == 0:
-        Guide_Status = 1
-    else:
-        Guide_Status = 0
-    update_data_metrics()
-
-Show_Guides = tkinter.Checkbutton(Diet_Data_Metrics, text="Display Guides", command=Display_Guides)
-Show_Guides['font'] = small_font
-Show_Guides.place(x=150, y=200)
 
 #Plot Hydration
 Hydro = 0
@@ -1486,6 +1432,141 @@ Clear_Item['font'] = small_font
 Clear_Item.place(x=273, y=155)
 
 polyfile_record() #auto-creates a file directory and calls the log-screen to update
+
+#Nutrition Operations
+
+#Nutrition Data Metrics Date Setup
+DayN = tkinter.Spinbox(Nutrition_Data_Metrics, width=3, from_=1, to=31, state="normal")
+DayN.place(x=50, y=22)
+DayN.delete(0, "end")
+DayN.insert(0, day_get)
+DayN.config(state="readonly")
+
+MonthN = tkinter.Spinbox(Nutrition_Data_Metrics, width=10, values=("January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"), state="normal")
+MonthN.place(x=154, y=22)
+MonthN_List = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"]
+MonthN.delete(0, "end")
+MonthN.insert(0, Month_List[month_get-1])
+MonthN.config(state="readonly")
+
+YearN = tkinter.Spinbox(Nutrition_Data_Metrics, width=4, from_=2020, to=2100, state="normal")
+YearN.place(x=293, y=22)
+YearN.delete(0, "end")
+YearN.insert(0, year_get)
+YearN.config(state="readonly")
+
+#Nutrition Data Metrics Macronutrients Input
+Macronutrients = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=250, background="lightsalmon")
+Macronutrients.place(x=695, y=60)
+Macronutrients.create_text(170, 20, text="MACRONUTRIENTS", font=("Comic Sans MS", 10))
+Macronutrients.create_text(95, 50, text="Protein:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(75, 80, text="Carbohydrate:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(99, 110, text="Fiber:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(76, 140, text="Linoleic Acid:", font=("Comic Sans MS", 10))
+Macronutrients.create_text(70, 170, text="α-Linoleic Acid:", font=("Comic Sans MS", 10))
+
+#Nutrition Data Metrics Vitamins Input
+Vitamins = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=540, background="skyblue3")
+Vitamins.place(x=350, y=60)
+Vitamins.create_text(170, 20, text="VITAMINS", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 50, text="Vitamin A:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 80, text="Vitamin C:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 110, text="Vitamin D:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 140, text="Vitamin E:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 170, text="Vitamin K:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 200, text="Thiamin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 230, text="Riboflavin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 260, text="Niacin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 290, text="Vitamin B6:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 320, text="Folate:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 350, text="Vitamin B12:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 380, text="Pantothenic Acid:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 410, text="Biotin:", font=("Comic Sans MS", 10))
+Vitamins.create_text(70, 440, text="Choline:", font=("Comic Sans MS", 10))
+
+#Nutrition Data Metrics Elements Input
+Elements = tkinter.Canvas(Nutrition_Data_Metrics, width=340, height=540, background="mistyrose2")
+Elements.place(x=5, y=60)
+Elements.create_text(170, 20, text="ELEMENTS", font=("Comic Sans MS", 10))
+Elements.create_text(70, 50, text="Calcium:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 80, text="Chromium:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 110, text="Copper:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 140, text="Fluoride:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 170, text="Iodine:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 200, text="Iron:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 230, text="Magnesium:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 260, text="Manganese:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 290, text="Molybdenum:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 320, text="Phosphorus:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 350, text="Selenium:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 380, text="Zinc:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 410, text="Potassium:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 440, text="Sodium:", font=("Comic Sans MS", 10))
+Elements.create_text(70, 470, text="Chloride:", font=("Comic Sans MS", 10))
+
+#Nutrition Data Metrics Weight, Age and Sex
+WeightN = tkinter.Spinbox(Nutrition_Data_Metrics, width=5, from_=0, to=200, state="normal", increment=0.1)
+WeightN.place(x=438, y=22)
+WeightN.delete(0, "end")
+WeightN.insert(0, "100.0")
+WeightN.config(state="readonly")
+WeightN_Control_Canvas.create_text(50, 26, text="Set Weight:", font=("Comic Sans MS", 10))
+WeightN_Control_Canvas.create_text(148, 26, text="(kg)", font=("Comic Sans MS", 10))
+WeightN_Control_Canvas.create_line(175, 0, 175, 50, width=2)
+
+#Set Male/Female
+genderN = 1
+def G_1():
+    global genderN
+    genderN = 0
+    MaleN.deselect()
+    FemaleN.select()
+
+def G_2():
+    global genderN
+    genderN = 1
+    FemaleN.deselect()
+    MaleN.select()
+    PregnantN.deselect()
+    LactatingN.deselect()
+
+WeightN_Control_Canvas.create_text(350, 26, text="Set Gender:", font=("Comic Sans MS", 10))
+MaleN = tkinter.Checkbutton(Nutrition_Data_Metrics, text="Male", offvalue=4, onvalue=5, command=G_2)
+MaleN['font'] = smaller_font
+MaleN.place(x=750, y=10)
+
+FemaleN = tkinter.Checkbutton(Nutrition_Data_Metrics, text="Female", offvalue=4, onvalue=5, command=G_1)
+FemaleN['font'] = smaller_font
+FemaleN.place(x=746, y=33)
+WeightN_Control_Canvas.create_line(470, 0, 470, 50, width=2)
+
+#Pregnant and/or Lactating
+WeightN_Control_Canvas.create_text(575, 15, text="Are you Pregnant and/or Lactating:",
+                                   font=("Comic Sans MS", 8))
+PregnantN = tkinter.Checkbutton(Nutrition_Data_Metrics, text="Pregnant", offvalue=4, onvalue=5, command=G_1)
+PregnantN['font'] = smaller_font
+PregnantN.place(x=855, y=33)
+PregnantN.deselect()
+
+LactatingN = tkinter.Checkbutton(Nutrition_Data_Metrics, text="Lactating", offvalue=4, onvalue=5, command=G_1)
+LactatingN['font'] = smaller_font
+LactatingN.place(x=935, y=33)
+LactatingN.deselect()
+
+#Set Age
+WeightN_Control_Canvas.create_text(215, 26, text="Set Age:", font=("Comic Sans MS", 10))
+AgeN = tkinter.Spinbox(Nutrition_Data_Metrics, width=3, from_=12, to=120, state="normal")
+AgeN.place(x=594, y=22)
+AgeN.delete(0, "end")
+AgeN.insert(0, "24")
+AgeN.config(state="readonly")
+WeightN_Control_Canvas.create_line(300, 0, 300, 50, width=2)
+
+#Checkbutton error fix?
+Male.select()
+
 
 def cleanup_operations():
     Diet_Data.delete("all")
