@@ -1,0 +1,31 @@
+Hot Dogs(Chicken)
+:BACKGROUND INFORMATION: 
+Hot dogs are a processed meat product made by mixing chopped meat with various curing ingredients, flavorants, and colorants. The meat is then stuffed in casings, cooked, removed  } 
+from the casing, and put in the final package. Although the technology for hot dog making was developed thousands of years ago, these meat products continue to be a popular        }
+summertime food. The typical raw hot dog is a pink, cylindrical-shaped piece of meat. It is about 1.6 oz (45.36 g) on average and contains anywhere from 0.175-0.245 oz (5-7 g) of  }
+protein. It also contains about 0.455 oz (13 g) of fat, 450 mg of sodium and 150 calories. Since hot dogs are meat products, they contain small amounts of certain essential        }
+nutrients including iron, zinc, niacin, riboflavin, and B vitamins. Since they are a pre-cooked food, they are less prone to spoilage than other types of meat products. This makes }
+them one of the safest meat products available.                                                                                                                                     }     
+:DIETARY NOTICE:
+As with most meats, hot dogs do contain dietary cholesterol which is          }
+associated with cardiovascular disease and high-blood pressure. It is         }
+important to keep track of cholesterol, especially if your typical diet       }
+includes lots of processed meats like hot dogs.                               }
+Unprocessed meats such as chicken or beef are typically better sources of     }
+protein per gram, when compared to processed meats like hot dogs.             }
+:NUTRITION FACTS:Hot Dogs, Chicken - :31:grams:---:%DV:1:
+Calories*70*3.5*cal:
+Cholesterol*28.8*10.6*mg:
+Total Fat*4.8*---*g:
+Saturated Fat*3.9*---*g:
+Sodium*250*10.2*mg:
+Potassium*65*1.6*mg:
+Carbohydrate*0.9*0.7*g:
+Fiber*0.13*0.3*g:
+Protein*5.3*10.5*g:
+Calcium*23.1*2.3*mg:
+Vitamin D*1.5*10*mcg:
+Vitamin B12*0.06*2.4*mcg:
+Iron*0.14*1.8*mg:
+Vitamin B6*0.05*4.5*mg:
+Magnesium*6*1.5*mg:
