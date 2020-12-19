@@ -1,0 +1,39 @@
+Fluoride
+:BACKGROUND INFORMATION:
+Fluoride, a mineral, is naturally present in many foods and available as a dietary supplement. Fluoride is the ionic form of the element fluorine, and it inhibits or reverses the  }
+initiation and progression of dental caries (tooth decay) and stimulates new bone formation. Soil, water, plants, and foods contain trace amounts of fluoride. Most of the fluoride }
+that people consume comes from fluoridated water, foods and beverages prepared with fluoridated water, and toothpaste and other dental products containing fluoride. Approximately  }
+80% or more of orally ingested fluoride is absorbed in the gastrointestinal tract. In adults, about 50% of absorbed fluoride is retained, and bones and teeth store about 99% of    }
+fluoride in the body. The other 50% is excreted in urine. In young children, up to 80% of absorbed fluoride is retained because more is taken up by bones and teeth than in adults. }
+Individual fluoride status is not typically assessed, although fluoride concentrations can be measured in plasma, saliva, urine, bones, nails, hair, and teeth. Criteria for        }
+adequate, high, or low levels of fluoride in the body have not been established.                                                                                                    }
+:EXCESSIVE FLUORIDE:
+High doses of fluoride (typically from rare accidents resulting in excessively}
+ high levels of fluoridation of water, unintentional ingestion of fluoride    }
+products intended for topical use in dentists’ offices, or fluoride           }
+supplements inappropriately given to children) can result in nausea, vomiting,}
+abdominal pain, diarrhea, periostitis, and even death in rare cases.          }
+Long-term ingestion of excess fluoride in infancy and childhood, when the     }
+teeth are being formed, can lead to dental fluorosis. The characteristics of  }
+this chronic condition usually vary from almost imperceptible white lines or  }
+flecks to white or brown stains on teeth. Severe dental fluorosis can lead to }
+pitting in tooth enamel. The risk of dental fluorosis increases with fluoride }
+intakes above recommended amounts. Severe enamel fluorosis is very rare, and  }
+no evidence indicates that recommended levels of community water fluoridation }
+lead to severe dental fluorosis.                                              }
+:SOURCES OF FLUORIDE:Food Name:mg:%DV:
+Tea, black, brewed, 1 cup*0.07*---:
+Coffee, brewed, 1 cup*0.22*---:
+Bottled water with added fluoride, 1 cup*0.19*---:
+Shrimp, canned, 3 ounces*0.17*---:
+Raisins, ¼ cup*0.08*---:
+Oatmeal, cooked, ½ cup*0.08*---:
+Grapefruit juice, ¾ cup*0.08*---:
+Potatoes, russet, baked, 1 medium*0.08*---:
+Rice, cooked, ½ cup*0.04*---:
+Cottage cheese, ½ cup*0.04*---:
+Pork chop, baked, 3 ounces*0.03*---:
+Yogurt, plain, low-fat, 1 cup*0.03*---:
+Lamb chop, cooked, 3 ounces*0.03*---:
+Tortilla, flour, 1 tortilla, approx. 10” diameter*0.02*---:
+Corn, canned, ½ cup*0.02*---:

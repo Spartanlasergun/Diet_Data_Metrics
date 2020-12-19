@@ -1,0 +1,32 @@
+Chromium
+:BACKGROUND INFORMATION:   
+Chromium, as trivalent (+3) chromium, is a trace element that is naturally present in many foods and available as a dietary supplement. Chromium also exists as hexavalent (+6)     }
+chromium, a toxic by-product of stainless steel and other manufacturing processes. Chromium might play a role in carbohydrate, lipid, and protein metabolism by potentiating insulin}
+action. Although the precise mechanism for this activity has not been identified, scientists have proposed that chromium binds to an oligopeptide to form chromodulin, a            }
+low-molecular-weight, chromium-binding substance that binds to and activates the insulin receptor to promote insulin action. Chromium might also have antioxidant effects.          }
+:CHROMIUM DEFICIENCY:
+In 2001, the Food and Nutrition Board (FNB) of the National Academies of      }
+Sciences, Engineering, and Medicine considered chromium to be an essential    }
+nutrient based on its effects on insulin action. However, recent research     }
+has suggested that although chromium might have benefits at pharmacologic     }
+amounts (e.g., in the hundreds of mcg), it is not an essential mineral        }
+because an absence or deficiency of chromium does not produce abnormalities   }
+that can be reversed with the addition of chromium. Chromium deficiency has   }
+not been reported in healthy populations, and no definitive deficiency        }
+symptoms have been established.                                               }
+:SOURCES OF CHROMIUM:Food Name:mg/d:%DV:
+Grape juice, 1 cup*7.5*21:
+Ham, 3 ounces*3.6*10:
+Orange juice, 1 cup*2.2*6:
+Beef, 3 ounces*2.0*6:
+Lettuce, 1 wedge, about 5 ounces*1.8*5:
+Turkey breast, 3 ounces*1.7*5:
+Barbecue sauce, 1 tablespoon*1.7*5:
+Tomato juice, 1 cup*1.5*4:
+Apple, with peel, 1 medium*1.4*4:
+Banana, 1 medium*1.0*3:
+Whole wheat bread, 1 slice*1.0*3:
+Ketchup, 1 tablespoon*1.0*3:
+Tomato, 1 medium*0.9*3:
+Peanut butter, 1 tablespoon*0.6*2:
+Rice, white, ½ cup*0.6*2:

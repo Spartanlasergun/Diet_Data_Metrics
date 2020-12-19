@@ -1,0 +1,39 @@
+Copper
+:BACKGROUND INFORMATION: 
+Copper, an essential mineral, is naturally present in some foods and is available as a dietary supplement. It is a cofactor for several enzymes (known as “cuproenzymes”) involved  }
+in energy production, iron metabolism, neuropeptide activation, connective tissue synthesis, and neurotransmitter synthesis. One abundant cuproenzyme is ceruloplasmin (CP),        }
+which plays a role in iron metabolism and carries more than 95% of the total copper in healthy human plasma. Copper is also involved in many physiologic processes, such as         }
+angiogenesis; neurohormone homeostasis; and regulation of gene expression, brain development, pigmentation, and immune system functioning. In addition, defense against oxidative   }
+damage depends mainly on the copper-containing superoxide dismutases. A wide variety of plant and animal foods contain copper, and the average human diet provides approximately    }
+1,400 mcg/day for men and 1,100 mcg/day for women that is primarily absorbed in the upper small intestine. Almost two-thirds of the body’s copper is located in the skeleton and    }
+muscle. Only small amounts of copper are typically stored in the body, and the average adult has a total body content of 50–120 mg copper.                                          }
+:COPPER DEFICIENCY:
+Copper deficiency is uncommon in humans. Based on studies in animals and      }
+humans, the effects of copper deficiency include anemia, hypopigmentation,    }
+hypercholesterolemia, connective tissue disorders, osteoporosis and other     }
+bone defects, abnormal lipid metabolism, ataxia, and increased risk of        }
+infection. Typical diets in the United States meet or exceed the copper RDA.  }
+Two diseases in which copper might play a role are cardiovascular disease     }
+(CVD) and Alzheimer’s disease.                                                }
+                                                                              }
+Some experts believe that dietary copper deficiency plays a role in the       }
+etiology and pathophysiology of Alzheimer’s disease, the leading cause of     }
+dementia, because of several reports of low copper levels and low activity    }
+of copper-dependent enzymes in the brains of people with the disease.         }
+The evidence for this link is limited.                                        }
+:SOURCES OF COPPER:Food Name:mg/d:%DV:
+Beef, liver, pan fried (3 ounces)*12400*1378:
+Oysters, eastern, wild, cooked, 3 ounces*4850*539:
+Baking chocolate, unsweetened, 1 ounce*938*104:
+Potatoes, cooked, flesh and skin, 1 medium potato*675*75:
+Mushrooms, shiitake, cooked, cut pieces, ½ cup*650*72:
+Cashew nuts, dry roasted, 1 ounce*629*70:
+Crab, Dungeness, cooked, 3 ounces*624*69:
+Sunflower seed kernels, toasted, ¼ cup*615*68:
+Turkey, giblets, simmered, 3 ounces*588*65:
+Chocolate, dark, 70%-85% cacao solids, 1 ounce*501*56:
+Tofu, raw, firm, ½ cup*476*53:
+Chickpeas, mature sees, ½ cup*289*32:
+Millet, cooked, 1 cup*280*31:
+Salmon, Atlantic, wild, cooked, 3 ounces*273*30:
+Pasta, whole wheat, cooked, 1 cup (not packed)*263*29:

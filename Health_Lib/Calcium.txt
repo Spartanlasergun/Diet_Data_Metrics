@@ -1,0 +1,40 @@
+Calcium
+:BACKGROUND INFORMATION:
+Calcium, the most abundant mineral in the body, is found in some foods, added to others, available as a dietary supplement, and present in some medicines (such as antacids).       }
+Calcium is required for vascular contraction and vasodilation, muscle function, nerve transmission, intracellular signaling and hormonal secretion, though less than 1% of total    }
+body calcium is needed to support these critical metabolic functions. Serum calcium is very tightly regulated and does not fluctuate with changes in dietary intakes; the body uses }
+bone tissue as a reservoir for, and source of calcium, to maintain constant concentrations of calcium in blood, muscle, and intercellular fluids. The remaining 99% of the body’s   }
+calcium supply is stored in the bones and teeth where it supports their structure and function. Bone itself undergoes continuous remodeling, with constant resorption and deposition}
+of calcium into new bone. The balance between bone resorption and deposition changes with age. Bone formation exceeds resorption in periods of growth in children and adolescents,  }
+whereas in early and middle adulthood both processes are relatively equal. In aging adults, particularly among postmenopausal women, bone breakdown exceeds formation, resulting in }
+bone loss that increases the risk of osteoporosis over time.                                                                                                                        }
+:CALCIUM DEFICIENCY:
+Inadequate intakes of dietary calcium from food and supplements produce no    }
+obvious symptoms in the short term. Circulating blood levels of calcium are   }
+tightly regulated. Hypocalcemia results primarily from medical problems or    }
+treatments, including renal failure, surgical removal of the stomach and      }
+use of certain medications (such as diuretics). Symptoms of hypocalcemia      }
+include numbness and tingling in the fingers, muscle cramps, convulsions,     }
+lethargy, poor appetite, and abnormal heart rhythms. If left untreated,       }
+calcium deficiency leads to death.                                            }
+                                                                              }
+Over the long term, inadequate calcium intake causes osteopenia which if      }
+untreated can lead to osteoporosis. The risk of bone fractures also increases,}
+especially in older individuals. Calcium deficiency can also cause rickets,   }
+though it is more commonly associated with vitamin D deficiency.              }
+:SOURCES OF CACLIUM:Food Name:mg/d:%DV:
+Yogurt, plain, low fat, 8 ounces*415*32:
+Orange juice, calcium fortified, 1 cup*349*27:
+Mozzarella, part skim, 1.5 ounces*333*26:
+Cheddar cheese, 1.5 ounces*307*24:
+Milk, nonfat, 1 cup*299*23:
+Soymilk, calcium fortified, 1 cup*299*23:
+Milk, reduced fat (2% milk fat), 1 cup*293*23:
+Milk, buttermilk, lowfat, 1 cup*284*22:
+Milk, whole (3.25% milk fat), 1 cup*276*21:
+Yogurt, fruit, low fat, 6 ounces*258*20:
+Tofu, firm, made with calcium sulfate, ½ cup*253*19:
+Salmon, pink, canned, solids with bone, 3 ounces*181*14:
+Cottage cheese, 1% milk fat, 1 cup*138*11:
+Tofu, soft, made with calcium sulfate, ½ cup*138*11:
+Breakfast cereals, fortified with 10% of the DV for calcium, 1 serving*130*10:
