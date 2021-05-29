@@ -13,7 +13,7 @@ from tkinter import ttk #for notebook module
 #Build Main Window
 root = tkinter.Tk()
 root.geometry('1280x640')
-root.title('Health Data Metrics')
+root.title('paperWeight')
 root.iconbitmap('app_icon.ico')
 root.resizable(0, 0)
 
@@ -156,6 +156,10 @@ def bulid_axis():
     #Plot Red Zone
     Diet_Data.create_line(50, 300, 850, 300, fill="red", dash=(3, 1))
 
+    #baby proofing
+    child_safety = 0
+    double_check = "start"
+
     #Plot Food Data Points
     food_log = "/food_log.txt"
     if path.exists(polyfile + polyfile_dir + food_log):
@@ -182,7 +186,7 @@ def bulid_axis():
                 if cycle_factor == 0:
                     start_cycle = start_data_s[2]
                 # adjust for cycle
-                if (time_cycle != start_cycle) and (time_hr <= 12):
+                if time_cycle != start_cycle:
                     start_cycle = time_cycle
                     cycle_factor = cycle_factor + 1
                     if time_hr == 12: #12 hour bugfix_1
@@ -194,7 +198,27 @@ def bulid_axis():
                 time_hr_mag = (time_hr + (12*cycle_factor)) - start_hr
                 time_min_mag = time_min - start_min
                 x_val = 50 + (time_hr_mag*50) + ((time_min_mag/60)*50)
-                food_data_points.append(str(x_val) + ":" + str(y_val))
+
+                #enforce child safety
+                if child_safety == 0:
+                    if double_check != "start":
+                        if x_val < double_check:
+                            child_safety = 1
+                            error_start = double_check
+                double_check = x_val
+
+                if child_safety == 0:
+                    food_data_points.append(str(x_val) + ":" + str(y_val))
+
+        #plot range error if necessary (child safety)
+        if child_safety == 1:
+            Diet_Data.create_line(error_start, 475, 850, 475, width=2, fill="red")
+            Diet_Data.create_line(error_start, 490, error_start, 460, width=2, fill="red")
+            Diet_Data.create_line(850, 490, 850, 460, width=2, fill="red")
+            line_center = ((850 - error_start)/2) + error_start
+            Diet_Data.create_text(line_center, 460,
+                                  text="Range Error - Food Data times are not \nin the proper sequence",
+                                  fill="red", justify="center")
 
         #plot data points
         if len(food_data_points) != 0:
@@ -1032,6 +1056,14 @@ DateN_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
 DateN_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
 DateN_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
 DateN_Canvas.create_rectangle(3, 3, 340, 50, outline="grey")
+
+#Date_Canvas Exercise Data Metrics
+DateE_Canvas = tkinter.Canvas(Exercise_Data_Metrics, width=340, height=50, background="lightgrey")
+DateE_Canvas.place(x=5, y=5)
+DateE_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
+DateE_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
+DateE_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
+DateE_Canvas.create_rectangle(3, 3, 340, 50, outline="grey")
 
 #create polyfile record
 def polyfile_record():
@@ -2575,7 +2607,7 @@ def Discretionary_Nutrients():
     if saturated_fat > 22:
         SF = 300
     if cholesterol > 300:
-        TF = 300
+        CH = 300
 
     #Display Boxes:
     Discretionary.create_rectangle(40, 90, TF, 110, fill="red")
@@ -6573,6 +6605,60 @@ search_field.place(x=15, y=25)
 search = tkinter.Button(Nutrition_Library, text="Search", width=8, command=SEARCH)
 search['font'] = small_font
 search.place(x=215, y=21)
+
+#-----------------------------------------------------------------------------------------------------------
+#Exercise Log Operations
+
+#create polyfile record
+def polyfile_recordE():
+    #fetch date info
+    dummy = 0
+    day_fetch = str(DayE.get())
+    month_fetch = str(MonthE.get())
+    year_fetch = str(YearE.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    if path.exists(polyfile + polyfile_dir):
+        dummy = dummy + 1
+    else:
+        os.makedirs(polyfile + polyfile_dir)
+    #Configure Day Range (for each month and leap year)
+    month_pull = Month.get()
+    year_pull = Year.get()
+    leap = True
+    leap_check = str((int(year_pull))/4)
+    split_leap = leap_check.split(".")
+    if int(split_leap[1]) > 0:
+        leap = False
+    if (month_pull == "September") or (month_pull == "April") or (month_pull == "June") or (month_pull == "November"):
+        Day.config(from_=1, to=30)
+    elif (month_pull == "February") and (leap == True):
+        Day.config(from_=1, to=29)
+    elif month_pull == "February":
+        Day.config(from_=1, to=28)
+    else:
+        Day.config(from_=1, to=31)
+
+#Diet Data Metrics Date Setup
+DayE = tkinter.Spinbox(Exercise_Data_Metrics, width=3, from_=1, to=31, state="normal", command=polyfile_recordE)
+DayE.place(x=50, y=22)
+DayE.delete(0, "end")
+DayE.insert(0, day_get)
+DayE.config(state="readonly")
+
+MonthE = tkinter.Spinbox(Exercise_Data_Metrics, width=10, values=("January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"), state="normal", command=polyfile_recordE)
+MonthE.place(x=154, y=22)
+MonthE_List = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+             "November", "December"]
+MonthE.delete(0, "end")
+MonthE.insert(0, Month_List[month_get-1])
+MonthE.config(state="readonly")
+
+YearE = tkinter.Spinbox(Exercise_Data_Metrics, width=4, from_=2020, to=2100, state="normal", command=polyfile_recordE)
+YearE.place(x=293, y=22)
+YearE.delete(0, "end")
+YearE.insert(0, year_get)
+YearE.config(state="readonly")
 
 
 def cleanup_operations():
