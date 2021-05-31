@@ -17,24 +17,22 @@ root.title('paperWeight')
 root.iconbitmap('app_icon.ico')
 root.resizable(0, 0)
 
+#notebook styling
+style = ttk.Style()
+style.configure("TNotebook", background="gray")
+
 #Setup Notebook
-TabControl = ttk.Notebook(root)
+TabControl = ttk.Notebook(root, style="TNotebook")
 Diet_Data_Metrics = ttk.Frame(TabControl)
 Nutrition_Data_Metrics = ttk.Frame(TabControl)
 Exercise_Data_Metrics = ttk.Frame(TabControl)
 Nutrition_Library = ttk.Frame(TabControl)
-Anthropometric_Data_Log = ttk.Frame(TabControl)
-Cognitive_Data_Log = ttk.Frame(TabControl)
-Statistical_Analysis = ttk.Frame(TabControl)
-User_Settings = ttk.Frame(TabControl)
+Settings = ttk.Frame(TabControl)
 TabControl.add(Diet_Data_Metrics, text="Main Log", padding=3)
 TabControl.add(Nutrition_Data_Metrics, text="Nutrition Log", padding=3)
 TabControl.add(Nutrition_Library, text="Nutrition Library", padding=3)
 TabControl.add(Exercise_Data_Metrics, text="Exercise Log", padding=3)
-TabControl.add(Anthropometric_Data_Log, text="Anthropometric Data Log", padding=3)
-TabControl.add(Cognitive_Data_Log, text="Cognitive Data Log", padding=3)
-TabControl.add(Statistical_Analysis, text="Statistical Analysis", padding=3)
-TabControl.add(User_Settings, text="User Settings", padding=3)
+TabControl.add(Settings, text="Settings", padding=3)
 TabControl.pack(expand=1, fill="both")
 
 #Locate and Create Database Directory
@@ -6609,7 +6607,22 @@ search.place(x=215, y=21)
 #-----------------------------------------------------------------------------------------------------------
 #Exercise Log Operations
 
-#create polyfile record
+#Creating Layout of Canvases for Exercise_Log
+Body_Data = tkinter.Canvas(Exercise_Data_Metrics, width=535, height=50, background="lightblue")
+Body_Data.place(x=350, y=5)
+
+Exercise_List = tkinter.Canvas(Exercise_Data_Metrics, width=880, height=240, background="peachpuff")
+Exercise_List.place(x=5, y=60)
+
+Diagram = tkinter.Canvas(Exercise_Data_Metrics, width=365, height=290,
+                           background="lightgrey", bd=2, relief="sunken")
+Diagram.place(x=890, y=5)
+
+Exercise_Graph = tkinter.Canvas(Exercise_Data_Metrics, width=1250, height=290,
+                                background="grey", bd=3, relief="sunken")
+Exercise_Graph.place(x=5, y=305)
+
+#create polyfile record for Exercise Log
 def polyfile_recordE():
     #fetch date info
     dummy = 0
@@ -6622,8 +6635,8 @@ def polyfile_recordE():
     else:
         os.makedirs(polyfile + polyfile_dir)
     #Configure Day Range (for each month and leap year)
-    month_pull = Month.get()
-    year_pull = Year.get()
+    month_pull = MonthE.get()
+    year_pull = YearE.get()
     leap = True
     leap_check = str((int(year_pull))/4)
     split_leap = leap_check.split(".")
@@ -6631,12 +6644,21 @@ def polyfile_recordE():
         leap = False
     if (month_pull == "September") or (month_pull == "April") or (month_pull == "June") or (month_pull == "November"):
         Day.config(from_=1, to=30)
+        day_count = 30
     elif (month_pull == "February") and (leap == True):
         Day.config(from_=1, to=29)
+        day_count = 29
     elif month_pull == "February":
         Day.config(from_=1, to=28)
+        day_count = 28
     else:
         Day.config(from_=1, to=31)
+        day_count = 31
+
+    #store date data to file
+    store_date_info = open(polyfile + "/date_info.txt", "w")
+    store_date_info.write(str(day_count) + "\n" + day_fetch + "\n" + month_pull + "\n" + year_pull)
+    store_date_info.close()
 
 #Diet Data Metrics Date Setup
 DayE = tkinter.Spinbox(Exercise_Data_Metrics, width=3, from_=1, to=31, state="normal", command=polyfile_recordE)
@@ -6659,6 +6681,14 @@ YearE.place(x=293, y=22)
 YearE.delete(0, "end")
 YearE.insert(0, year_get)
 YearE.config(state="readonly")
+
+#trigger collapse of functions for Exercise_Log
+polyfile_recordE()
+
+#-------------------------------------------------------------------------------------------------------------
+#Settings
+clear_all = tkinter.Button(Settings, text="Clear All User Data") #for future use
+clear_all.place(x=50, y=50)
 
 
 def cleanup_operations():
