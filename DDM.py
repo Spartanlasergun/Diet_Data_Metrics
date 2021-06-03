@@ -198,11 +198,18 @@ def bulid_axis():
                 x_val = 50 + (time_hr_mag*50) + ((time_min_mag/60)*50)
 
                 #enforce child safety
+                if x_val > 850:
+                    child_safety = 1
+                    error_val = 2
+                if x_val < 50:
+                    child_safety = 1
+                    error_val = 3
                 if child_safety == 0:
                     if double_check != "start":
                         if x_val < double_check:
                             child_safety = 1
                             error_start = double_check
+                            error_val = 1
                 double_check = x_val
 
                 if child_safety == 0:
@@ -210,13 +217,35 @@ def bulid_axis():
 
         #plot range error if necessary (child safety)
         if child_safety == 1:
-            Diet_Data.create_line(error_start, 475, 850, 475, width=2, fill="red")
-            Diet_Data.create_line(error_start, 490, error_start, 460, width=2, fill="red")
-            Diet_Data.create_line(850, 490, 850, 460, width=2, fill="red")
-            line_center = ((850 - error_start)/2) + error_start
-            Diet_Data.create_text(line_center, 460,
-                                  text="Range Error - Food Data times are not \nin the proper sequence",
-                                  fill="red", justify="center")
+            error_message_1 = "Range Error - Food Data times are not \nin the proper sequence"
+            error_message_2 = "Range Error -\nOut Of Bounds"
+            if error_val == 1:
+                error_message = error_message_1
+                Diet_Data.create_line(error_start, 475, 850, 475, width=2, fill="red")
+                Diet_Data.create_line(error_start, 490, error_start, 460, width=2, fill="red")
+                Diet_Data.create_line(850, 490, 850, 460, width=2, fill="red")
+                line_center = ((850 - error_start)/2) + error_start
+                Diet_Data.create_text(line_center, 460,
+                                      text=error_message,
+                                      fill="red", justify="center")
+            if error_val == 2:
+                error_message = error_message_2
+                Diet_Data.create_line(850, 500, 850, 100, width=2, fill="lightblue")
+                Diet_Data.create_text(800, 250, text=error_message, fill="lightblue", justify="center")
+                diag = 500
+                while diag != 100:
+                    Diet_Data.create_line(850, diag, 875, (diag - 25), width=2, fill="lightblue")
+                    diag = diag - 25
+
+            if error_val == 3:
+                error_message = error_message_2
+                Diet_Data.create_line(51, 499, 51, 100, width=2, fill="lightblue")
+                Diet_Data.create_text(100, 250, text=error_message, fill="lightblue", justify="center")
+                diag = 500
+                while diag != 100:
+                    Diet_Data.create_line(51, diag, 26, (diag - 25), width=2, fill="lightblue")
+                    diag = diag - 25
+
 
         #plot data points
         if len(food_data_points) != 0:
@@ -1054,14 +1083,6 @@ DateN_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
 DateN_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
 DateN_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
 DateN_Canvas.create_rectangle(3, 3, 340, 50, outline="grey")
-
-#Date_Canvas Exercise Data Metrics
-DateE_Canvas = tkinter.Canvas(Exercise_Data_Metrics, width=340, height=50, background="lightgrey")
-DateE_Canvas.place(x=5, y=5)
-DateE_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
-DateE_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
-DateE_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
-DateE_Canvas.create_rectangle(3, 3, 340, 50, outline="grey")
 
 #create polyfile record
 def polyfile_record():
@@ -6607,20 +6628,165 @@ search.place(x=215, y=21)
 #-----------------------------------------------------------------------------------------------------------
 #Exercise Log Operations
 
-#Creating Layout of Canvases for Exercise_Log
-Body_Data = tkinter.Canvas(Exercise_Data_Metrics, width=535, height=50, background="lightblue")
-Body_Data.place(x=350, y=5)
+#Creating GUI Layout for Exercise_Log
 
-Exercise_List = tkinter.Canvas(Exercise_Data_Metrics, width=880, height=240, background="peachpuff")
+#Date_Canvas Exercise Data Metrics
+DateE_Canvas = tkinter.Canvas(Exercise_Data_Metrics, width=340, height=50, background="lightgrey")
+DateE_Canvas.place(x=5, y=5)
+DateE_Canvas.create_text(29, 26, text="Day:", font=("Comic Sans MS", 10))
+DateE_Canvas.create_text(125, 26, text="Month:", font=("Comic Sans MS", 10))
+DateE_Canvas.create_text(268, 26, text="Year:", font=("Comic Sans MS", 10))
+DateE_Canvas.create_rectangle(3, 3, 340, 50, outline="grey")
+
+Weight_Data = tkinter.Canvas(Exercise_Data_Metrics, width=125, height=50, background="lightblue")
+Weight_Data.place(x=350, y=5)
+Weight_Box = tkinter.Spinbox(Exercise_Data_Metrics, width=5, from_=0, to=200, state="normal", increment=0.1)
+Weight_Box.place(x=403, y=20)
+Weight_Box.delete(0, "end")
+Weight_Box.insert(0, "100.0")
+Weight_Box.config(state="readonly")
+Weight_Data.create_text(28, 25, text="Weight:", font=("Comic Sans MS", 10))
+Weight_Data.create_text(112, 24, text="(kg)", font=("Comic Sans MS", 10))
+
+Exercise_List = tkinter.Canvas(Exercise_Data_Metrics, width=470, height=541, background="peachpuff")
 Exercise_List.place(x=5, y=60)
+Exercise_Background = ImageTk.PhotoImage(Image.open("exercise_list_bg.png"))
+Exercise_List.create_image(0, 0, anchor=NW, image=Exercise_Background)
+Exercise_List.create_line(345, 0, 345, 541, width=2, fill="grey")
+Exercise_List.create_line(0, 45, 470, 45, width=2, fill="grey")
+Exercise_List.create_text(172, 22, text="BODYWEIGHT EXERCISE LIST", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 22, text="            MET\n(Metabolic Equivalent)", font=("Comic Sans MS", 9),
+                          anchor="center")
+ex_lines = 45
+while ex_lines < 311:
+    Exercise_List.create_line(0, ex_lines+30, 470, ex_lines+30)
+    ex_lines = ex_lines + 30
+Exercise_List.create_line(0, 345, 470, 345, width=2, fill="grey")
+Exercise_List.create_line(0, 390, 470, 390, width=2, fill="grey")
+Exercise_List.create_text(172, 367, text="LIGHT INTENSITY ACTIVITIES", font=("Comic Sans MS", 10),
+                          anchor="center")
+Exercise_List.create_text(408, 367, text="            MET\n(Metabolic Equivalent)", font=("Comic Sans MS", 9),
+                          anchor="center")
+Exercise_List.create_rectangle(3, 3, 471, 542, width=2, outline="grey30") #border
+Exercise_List.create_line(0, 420, 470, 420)
+Exercise_List.create_line(0, 450, 470, 450)
+Exercise_List.create_line(0, 480, 470, 480)
+Exercise_List.create_line(0, 510, 470, 510)
 
-Diagram = tkinter.Canvas(Exercise_Data_Metrics, width=365, height=290,
-                           background="lightgrey", bd=2, relief="sunken")
-Diagram.place(x=890, y=5)
+Exercise_List.create_text(305, 50, text="Ab-Exercises:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 80, text="Bridges (Butt-Lift):        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 110, text="Burpees:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 140, text="Crunches:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 170, text="Jumping Jacks:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 200, text="Lunges:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 230, text="Mountain Climbers:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 260, text="Push Ups:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 290, text="Sit-Ups:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 320, text="Squats:        min(s)         second(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 395, text="Sleeping:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 425, text="Watching Television:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 455, text="Writing, Desk Work:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 485, text="Walking, Household:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
+Exercise_List.create_text(305, 515, text="Walking, 3.2km/ph:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
+#--------------MET Values
+Exercise_List.create_text(408, 62, text="7.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 92, text="6.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 122, text="8.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 152, text="5.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 182, text="7.7", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 212, text="4.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 242, text="8.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 272, text="8.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 302, text="8.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 332, text="8.0", font=("Comic Sans MS", 10), anchor="center")
 
-Exercise_Graph = tkinter.Canvas(Exercise_Data_Metrics, width=1250, height=290,
+
+Exercise_List.create_text(408, 407, text="0.95", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 437, text="1.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 467, text="1.3", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 497, text="2.0", font=("Comic Sans MS", 10), anchor="center")
+Exercise_List.create_text(408, 527, text="2.8", font=("Comic Sans MS", 10), anchor="center")
+
+#Exercise_List - Spinboxes
+Ab_Exercises_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Ab_Exercises_Min.place(x=151, y=110)
+Ab_Exercises_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Ab_Exercises_Sec.place(x=223, y=110)
+
+Bridges_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Bridges_Min.place(x=151, y=140)
+Bridges_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Bridges_Sec.place(x=223, y=140)
+
+Burpees_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Burpees_Min.place(x=151, y=170)
+Burpees_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Burpees_Sec.place(x=223, y=170)
+
+Crunches_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Crunches_Min.place(x=151, y=200)
+Crunches_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Crunches_Sec.place(x=223, y=200)
+
+Jumping_Jacks_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Jumping_Jacks_Min.place(x=151, y=230)
+Jumping_Jacks_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Jumping_Jacks_Sec.place(x=223, y=230)
+
+Lunges_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Lunges_Min.place(x=151, y=260)
+Lunges_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Lunges_Sec.place(x=223, y=260)
+
+Mountain_Climbers_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Mountain_Climbers_Min.place(x=151, y=290)
+Mountain_Climbers_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Mountain_Climbers_Sec.place(x=223, y=290)
+
+Push_Ups_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Push_Ups_Min.place(x=151, y=320)
+Push_Ups_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Push_Ups_Sec.place(x=223, y=320)
+
+Sit_Ups_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Sit_Ups_Min.place(x=151, y=350)
+Sit_Ups_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Sit_Ups_Sec.place(x=223, y=350)
+
+Squats_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Squats_Min.place(x=151, y=380)
+Squats_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Squats_Sec.place(x=223, y=380)
+
+Sleeping_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Sleeping_Hr.place(x=175, y=455)
+Sleeping_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Sleeping_Min.place(x=243, y=455)
+
+Watching_Television_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Watching_Television_Hr.place(x=175, y=485)
+Watching_Television_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Watching_Television_Min.place(x=243, y=485)
+
+Writing_DeskWork_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Writing_DeskWork_Hr.place(x=175, y=515)
+Writing_DeskWork_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Writing_DeskWork_Min.place(x=243, y=515)
+
+Walking_Household_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Walking_Household_Hr.place(x=175, y=545)
+Walking_Household_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Walking_Household_Min.place(x=243, y=545)
+
+Walking_Reg_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
+Walking_Reg_Hr.place(x=175, y=575)
+Walking_Reg_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
+Walking_Reg_Min.place(x=243, y=575)
+
+
+Exercise_Graph = tkinter.Canvas(Exercise_Data_Metrics, width=775, height=590,
                                 background="grey", bd=3, relief="sunken")
-Exercise_Graph.place(x=5, y=305)
+Exercise_Graph.place(x=480, y=5)
 
 #create polyfile record for Exercise Log
 def polyfile_recordE():
