@@ -1237,7 +1237,7 @@ Weight_Control_Canvas.create_text(310, 26, text="Age:", font=("Comic Sans MS", 1
 Age = tkinter.Spinbox(Diet_Data_Metrics, width=3, from_=12, to=120, state="normal", command=update_data_metrics)
 Age.place(x=1005, y=22)
 Age.delete(0, "end")
-Age.insert(0, "24")
+Age.insert(0, "25")
 Age.config(state="readonly")
 
 #Weight Control Graphs
@@ -6640,11 +6640,6 @@ DateE_Canvas.create_rectangle(3, 3, 340, 50, outline="grey")
 
 Weight_Data = tkinter.Canvas(Exercise_Data_Metrics, width=125, height=50, background="lightblue")
 Weight_Data.place(x=350, y=5)
-Weight_Box = tkinter.Spinbox(Exercise_Data_Metrics, width=5, from_=0, to=200, state="normal", increment=0.1)
-Weight_Box.place(x=403, y=20)
-Weight_Box.delete(0, "end")
-Weight_Box.insert(0, "100.0")
-Weight_Box.config(state="readonly")
 Weight_Data.create_text(28, 25, text="Weight:", font=("Comic Sans MS", 10))
 Weight_Data.create_text(112, 24, text="(kg)", font=("Comic Sans MS", 10))
 
@@ -6688,6 +6683,7 @@ Exercise_List.create_text(305, 425, text="Watching Television:        Hr(s)     
 Exercise_List.create_text(305, 455, text="Writing, Desk Work:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
 Exercise_List.create_text(305, 485, text="Walking, Household:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
 Exercise_List.create_text(305, 515, text="Walking, 3.2km/ph:        Hr(s)         Min(s)", font=("Comic Sans MS", 10), anchor="ne")
+
 #--------------MET Values
 Exercise_List.create_text(408, 62, text="7.0", font=("Comic Sans MS", 10), anchor="center")
 Exercise_List.create_text(408, 92, text="6.0", font=("Comic Sans MS", 10), anchor="center")
@@ -6707,86 +6703,507 @@ Exercise_List.create_text(408, 467, text="1.3", font=("Comic Sans MS", 10), anch
 Exercise_List.create_text(408, 497, text="2.0", font=("Comic Sans MS", 10), anchor="center")
 Exercise_List.create_text(408, 527, text="2.8", font=("Comic Sans MS", 10), anchor="center")
 
-#Exercise_List - Spinboxes
-Ab_Exercises_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Ab_Exercises_Min.place(x=151, y=110)
-Ab_Exercises_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Ab_Exercises_Sec.place(x=223, y=110)
-
-Bridges_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Bridges_Min.place(x=151, y=140)
-Bridges_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Bridges_Sec.place(x=223, y=140)
-
-Burpees_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Burpees_Min.place(x=151, y=170)
-Burpees_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Burpees_Sec.place(x=223, y=170)
-
-Crunches_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Crunches_Min.place(x=151, y=200)
-Crunches_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Crunches_Sec.place(x=223, y=200)
-
-Jumping_Jacks_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Jumping_Jacks_Min.place(x=151, y=230)
-Jumping_Jacks_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Jumping_Jacks_Sec.place(x=223, y=230)
-
-Lunges_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Lunges_Min.place(x=151, y=260)
-Lunges_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Lunges_Sec.place(x=223, y=260)
-
-Mountain_Climbers_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Mountain_Climbers_Min.place(x=151, y=290)
-Mountain_Climbers_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Mountain_Climbers_Sec.place(x=223, y=290)
-
-Push_Ups_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Push_Ups_Min.place(x=151, y=320)
-Push_Ups_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Push_Ups_Sec.place(x=223, y=320)
-
-Sit_Ups_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Sit_Ups_Min.place(x=151, y=350)
-Sit_Ups_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Sit_Ups_Sec.place(x=223, y=350)
-
-Squats_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Squats_Min.place(x=151, y=380)
-Squats_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Squats_Sec.place(x=223, y=380)
-
-Sleeping_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Sleeping_Hr.place(x=175, y=455)
-Sleeping_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Sleeping_Min.place(x=243, y=455)
-
-Watching_Television_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Watching_Television_Hr.place(x=175, y=485)
-Watching_Television_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Watching_Television_Min.place(x=243, y=485)
-
-Writing_DeskWork_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Writing_DeskWork_Hr.place(x=175, y=515)
-Writing_DeskWork_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Writing_DeskWork_Min.place(x=243, y=515)
-
-Walking_Household_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Walking_Household_Hr.place(x=175, y=545)
-Walking_Household_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Walking_Household_Min.place(x=243, y=545)
-
-Walking_Reg_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1)
-Walking_Reg_Hr.place(x=175, y=575)
-Walking_Reg_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1)
-Walking_Reg_Min.place(x=243, y=575)
-
-
 Exercise_Graph = tkinter.Canvas(Exercise_Data_Metrics, width=775, height=590,
                                 background="grey", bd=3, relief="sunken")
 Exercise_Graph.place(x=480, y=5)
+Muscle_Diag = ImageTk.PhotoImage(Image.open("Muscle_Diagram.png"))
+Exercise_Graph.create_image(0, 10, anchor=NW, image=Muscle_Diag)
+
+def Draw_Exercise_Graph():
+    # clear canvas to intialize
+    Exercise_Graph.delete("all")
+    Exercise_Graph.create_image(0, 10, anchor=NW, image=Muscle_Diag)
+
+    #Build Axis
+    Exercise_Graph.create_line(50, 540, 50, 340, width=2) #y_axis
+    Exercise_Graph.create_line(50, 540, 725, 540, width=2) #x_axis
+
+    #Y_axis
+    top = 540
+    numbering = 0
+    while top > 340:
+        Exercise_Graph.create_line(50, (top-25),40, (top-25), width=2, fill="lime")
+        numbering = numbering + 50
+        Exercise_Graph.create_text(30, (top-25), text=str(numbering))
+        top = top - 25
+
+    #X_axis
+    if path.exists(polyfile + "/date_info.txt"):
+        read_date_info = open(polyfile + "/date_info.txt", "r", encoding='utf8')
+        info = read_date_info.read().splitlines()
+        read_date_info.close()
+        day_num = int(info[0])
+        month = info[3]
+        spacing = (675 / day_num)
+        space = spacing
+        incre = 0
+        while incre != day_num:
+            incre = incre + 1
+            Exercise_Graph.create_line((50+spacing), 540, (50+spacing), 550, width=2, fill="lime")
+            Exercise_Graph.create_text((50 + spacing), 560, text=str(incre))
+            spacing = spacing + space
+
+def update_exercise_boxes():
+    # date info
+    day_fetch = str(DayE.get())
+    month_fetch = str(MonthE.get())
+    year_fetch = str(YearE.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+
+    if path.exists(polyfile + polyfile_dir + "/exercise_data.txt"):
+        get_data = open(polyfile + polyfile_dir + "/exercise_data.txt", "r", encoding="utf8")
+        pull = get_data.read().splitlines()
+        get_data.close()
+
+        #Ab Exercises Insert
+        Units = pull[0]
+        Use = Units.split(":")
+
+        Ab_Exercises_Min.config(state="normal")
+        Ab_Exercises_Min.delete(0, "end")
+        Ab_Exercises_Min.insert(0, Use[0])
+        Ab_Exercises_Min.config(state="readonly")
+
+        Ab_Exercises_Sec.config(state="normal")
+        Ab_Exercises_Sec.delete(0, "end")
+        Ab_Exercises_Sec.insert(0, Use[1])
+        Ab_Exercises_Sec.config(state="readonly")
+
+        #Bridges Insert
+        Units = pull[1]
+        Use = Units.split(":")
+
+        Bridges_Min.config(state="normal")
+        Bridges_Min.delete(0, "end")
+        Bridges_Min.insert(0, Use[0])
+        Bridges_Min.config(state="readonly")
+
+        Bridges_Sec.config(state="normal")
+        Bridges_Sec.delete(0, "end")
+        Bridges_Sec.insert(0, Use[1])
+        Bridges_Sec.config(state="readonly")
+
+        # Burpees Insert
+        Units = pull[2]
+        Use = Units.split(":")
+
+        Burpees_Min.config(state="normal")
+        Burpees_Min.delete(0, "end")
+        Burpees_Min.insert(0, Use[0])
+        Burpees_Min.config(state="readonly")
+
+        Burpees_Sec.config(state="normal")
+        Burpees_Sec.delete(0, "end")
+        Burpees_Sec.insert(0, Use[1])
+        Burpees_Sec.config(state="readonly")
+
+        # Crunches Insert
+        Units = pull[3]
+        Use = Units.split(":")
+
+        Crunches_Min.config(state="normal")
+        Crunches_Min.delete(0, "end")
+        Crunches_Min.insert(0, Use[0])
+        Crunches_Min.config(state="readonly")
+
+        Crunches_Sec.config(state="normal")
+        Crunches_Sec.delete(0, "end")
+        Crunches_Sec.insert(0, Use[1])
+        Crunches_Sec.config(state="readonly")
+
+        # Jumping Jacks Insert
+        Units = pull[4]
+        Use = Units.split(":")
+
+        Jumping_Jacks_Min.config(state="normal")
+        Jumping_Jacks_Min.delete(0, "end")
+        Jumping_Jacks_Min.insert(0, Use[0])
+        Jumping_Jacks_Min.config(state="readonly")
+
+        Jumping_Jacks_Sec.config(state="normal")
+        Jumping_Jacks_Sec.delete(0, "end")
+        Jumping_Jacks_Sec.insert(0, Use[1])
+        Jumping_Jacks_Sec.config(state="readonly")
+
+        # Lunges Insert
+        Units = pull[5]
+        Use = Units.split(":")
+
+        Lunges_Min.config(state="normal")
+        Lunges_Min.delete(0, "end")
+        Lunges_Min.insert(0, Use[0])
+        Lunges_Min.config(state="readonly")
+
+        Lunges_Sec.config(state="normal")
+        Lunges_Sec.delete(0, "end")
+        Lunges_Sec.insert(0, Use[1])
+        Lunges_Sec.config(state="readonly")
+
+        # Mountain Climbers Insert
+        Units = pull[6]
+        Use = Units.split(":")
+
+        Mountain_Climbers_Min.config(state="normal")
+        Mountain_Climbers_Min.delete(0, "end")
+        Mountain_Climbers_Min.insert(0, Use[0])
+        Mountain_Climbers_Min.config(state="readonly")
+
+        Mountain_Climbers_Sec.config(state="normal")
+        Mountain_Climbers_Sec.delete(0, "end")
+        Mountain_Climbers_Sec.insert(0, Use[1])
+        Mountain_Climbers_Sec.config(state="readonly")
+
+        # Push Ups Insert
+        Units = pull[7]
+        Use = Units.split(":")
+
+        Push_Ups_Min.config(state="normal")
+        Push_Ups_Min.delete(0, "end")
+        Push_Ups_Min.insert(0, Use[0])
+        Push_Ups_Min.config(state="readonly")
+
+        Push_Ups_Sec.config(state="normal")
+        Push_Ups_Sec.delete(0, "end")
+        Push_Ups_Sec.insert(0, Use[1])
+        Push_Ups_Sec.config(state="readonly")
+
+        # Sit Ups Insert
+        Units = pull[8]
+        Use = Units.split(":")
+
+        Sit_Ups_Min.config(state="normal")
+        Sit_Ups_Min.delete(0, "end")
+        Sit_Ups_Min.insert(0, Use[0])
+        Sit_Ups_Min.config(state="readonly")
+
+        Sit_Ups_Sec.config(state="normal")
+        Sit_Ups_Sec.delete(0, "end")
+        Sit_Ups_Sec.insert(0, Use[1])
+        Sit_Ups_Sec.config(state="readonly")
+
+        # Squats Ups Insert
+        Units = pull[9]
+        Use = Units.split(":")
+
+        Squats_Min.config(state="normal")
+        Squats_Min.delete(0, "end")
+        Squats_Min.insert(0, Use[0])
+        Sit_Ups_Min.config(state="readonly")
+
+        Squats_Sec.config(state="normal")
+        Squats_Sec.delete(0, "end")
+        Squats_Sec.insert(0, Use[1])
+        Squats_Sec.config(state="readonly")
+
+        # Sleeping Insert
+        Units = pull[10]
+        Use = Units.split(":")
+
+        Sleeping_Hr.config(state="normal")
+        Sleeping_Hr.delete(0, "end")
+        Sleeping_Hr.insert(0, Use[0])
+        Sleeping_Hr.config(state="readonly")
+
+        Sleeping_Min.config(state="normal")
+        Sleeping_Min.delete(0, "end")
+        Sleeping_Min.insert(0, Use[1])
+        Sleeping_Min.config(state="readonly")
+
+        # Watching Television Insert
+        Units = pull[11]
+        Use = Units.split(":")
+
+        Watching_Television_Hr.config(state="normal")
+        Watching_Television_Hr.delete(0, "end")
+        Watching_Television_Hr.insert(0, Use[0])
+        Watching_Television_Hr.config(state="readonly")
+
+        Watching_Television_Min.config(state="normal")
+        Watching_Television_Min.delete(0, "end")
+        Watching_Television_Min.insert(0, Use[1])
+        Watching_Television_Min.config(state="readonly")
+
+        # Writing Deskwork Insert
+        Units = pull[12]
+        Use = Units.split(":")
+
+        Writing_DeskWork_Hr.config(state="normal")
+        Writing_DeskWork_Hr.delete(0, "end")
+        Writing_DeskWork_Hr.insert(0, Use[0])
+        Writing_DeskWork_Hr.config(state="readonly")
+
+        Writing_DeskWork_Min.config(state="normal")
+        Writing_DeskWork_Min.delete(0, "end")
+        Writing_DeskWork_Min.insert(0, Use[1])
+        Writing_DeskWork_Min.config(state="readonly")
+
+        # Walking Household Insert
+        Units = pull[13]
+        Use = Units.split(":")
+
+        Walking_Household_Hr.config(state="normal")
+        Walking_Household_Hr.delete(0, "end")
+        Walking_Household_Hr.insert(0, Use[0])
+        Walking_Household_Hr.config(state="readonly")
+
+        Walking_Household_Min.config(state="normal")
+        Walking_Household_Min.delete(0, "end")
+        Walking_Household_Min.insert(0, Use[1])
+        Walking_Household_Min.config(state="readonly")
+
+        # Walking Reg Insert
+        Units = pull[14]
+        Use = Units.split(":")
+
+        Walking_Reg_Hr.config(state="normal")
+        Walking_Reg_Hr.delete(0, "end")
+        Walking_Reg_Hr.insert(0, Use[0])
+        Walking_Reg_Hr.config(state="readonly")
+
+        Walking_Reg_Min.config(state="normal")
+        Walking_Reg_Min.delete(0, "end")
+        Walking_Reg_Min.insert(0, Use[1])
+        Walking_Reg_Min.config(state="readonly")
+    else:
+        Use = [0, 0]
+        # Ab Exercises Insert
+        Ab_Exercises_Min.config(state="normal")
+        Ab_Exercises_Min.delete(0, "end")
+        Ab_Exercises_Min.insert(0, Use[0])
+        Ab_Exercises_Min.config(state="readonly")
+
+        Ab_Exercises_Sec.config(state="normal")
+        Ab_Exercises_Sec.delete(0, "end")
+        Ab_Exercises_Sec.insert(0, Use[1])
+        Ab_Exercises_Sec.config(state="readonly")
+
+        # Bridges Insert
+        Bridges_Min.config(state="normal")
+        Bridges_Min.delete(0, "end")
+        Bridges_Min.insert(0, Use[0])
+        Bridges_Min.config(state="readonly")
+
+        Bridges_Sec.config(state="normal")
+        Bridges_Sec.delete(0, "end")
+        Bridges_Sec.insert(0, Use[1])
+        Bridges_Sec.config(state="readonly")
+
+        # Burpees Insert
+        Burpees_Min.config(state="normal")
+        Burpees_Min.delete(0, "end")
+        Burpees_Min.insert(0, Use[0])
+        Burpees_Min.config(state="readonly")
+
+        Burpees_Sec.config(state="normal")
+        Burpees_Sec.delete(0, "end")
+        Burpees_Sec.insert(0, Use[1])
+        Burpees_Sec.config(state="readonly")
+
+        # Crunches Insert
+        Crunches_Min.config(state="normal")
+        Crunches_Min.delete(0, "end")
+        Crunches_Min.insert(0, Use[0])
+        Crunches_Min.config(state="readonly")
+
+        Crunches_Sec.config(state="normal")
+        Crunches_Sec.delete(0, "end")
+        Crunches_Sec.insert(0, Use[1])
+        Crunches_Sec.config(state="readonly")
+
+        # Jumping Jacks Insert
+        Jumping_Jacks_Min.config(state="normal")
+        Jumping_Jacks_Min.delete(0, "end")
+        Jumping_Jacks_Min.insert(0, Use[0])
+        Jumping_Jacks_Min.config(state="readonly")
+
+        Jumping_Jacks_Sec.config(state="normal")
+        Jumping_Jacks_Sec.delete(0, "end")
+        Jumping_Jacks_Sec.insert(0, Use[1])
+        Jumping_Jacks_Sec.config(state="readonly")
+
+        # Lunges Insert
+        Lunges_Min.config(state="normal")
+        Lunges_Min.delete(0, "end")
+        Lunges_Min.insert(0, Use[0])
+        Lunges_Min.config(state="readonly")
+
+        Lunges_Sec.config(state="normal")
+        Lunges_Sec.delete(0, "end")
+        Lunges_Sec.insert(0, Use[1])
+        Lunges_Sec.config(state="readonly")
+
+        # Mountain Climbers Insert
+        Mountain_Climbers_Min.config(state="normal")
+        Mountain_Climbers_Min.delete(0, "end")
+        Mountain_Climbers_Min.insert(0, Use[0])
+        Mountain_Climbers_Min.config(state="readonly")
+
+        Mountain_Climbers_Sec.config(state="normal")
+        Mountain_Climbers_Sec.delete(0, "end")
+        Mountain_Climbers_Sec.insert(0, Use[1])
+        Mountain_Climbers_Sec.config(state="readonly")
+
+        # Push Ups Insert
+        Push_Ups_Min.config(state="normal")
+        Push_Ups_Min.delete(0, "end")
+        Push_Ups_Min.insert(0, Use[0])
+        Push_Ups_Min.config(state="readonly")
+
+        Push_Ups_Sec.config(state="normal")
+        Push_Ups_Sec.delete(0, "end")
+        Push_Ups_Sec.insert(0, Use[1])
+        Push_Ups_Sec.config(state="readonly")
+
+        # Sit Ups Insert
+        Sit_Ups_Min.config(state="normal")
+        Sit_Ups_Min.delete(0, "end")
+        Sit_Ups_Min.insert(0, Use[0])
+        Sit_Ups_Min.config(state="readonly")
+
+        Sit_Ups_Sec.config(state="normal")
+        Sit_Ups_Sec.delete(0, "end")
+        Sit_Ups_Sec.insert(0, Use[1])
+        Sit_Ups_Sec.config(state="readonly")
+
+        # Squats Ups Insert
+        Squats_Min.config(state="normal")
+        Squats_Min.delete(0, "end")
+        Squats_Min.insert(0, Use[0])
+        Sit_Ups_Min.config(state="readonly")
+
+        Squats_Sec.config(state="normal")
+        Squats_Sec.delete(0, "end")
+        Squats_Sec.insert(0, Use[1])
+        Squats_Sec.config(state="readonly")
+
+        # Sleeping Insert
+        Sleeping_Hr.config(state="normal")
+        Sleeping_Hr.delete(0, "end")
+        Sleeping_Hr.insert(0, Use[0])
+        Sleeping_Hr.config(state="readonly")
+
+        Sleeping_Min.config(state="normal")
+        Sleeping_Min.delete(0, "end")
+        Sleeping_Min.insert(0, Use[1])
+        Sleeping_Min.config(state="readonly")
+
+        # Watching Television Insert
+        Watching_Television_Hr.config(state="normal")
+        Watching_Television_Hr.delete(0, "end")
+        Watching_Television_Hr.insert(0, Use[0])
+        Watching_Television_Hr.config(state="readonly")
+
+        Watching_Television_Min.config(state="normal")
+        Watching_Television_Min.delete(0, "end")
+        Watching_Television_Min.insert(0, Use[1])
+        Watching_Television_Min.config(state="readonly")
+
+        # Writing Deskwork Insert
+        Writing_DeskWork_Hr.config(state="normal")
+        Writing_DeskWork_Hr.delete(0, "end")
+        Writing_DeskWork_Hr.insert(0, Use[0])
+        Writing_DeskWork_Hr.config(state="readonly")
+
+        Writing_DeskWork_Min.config(state="normal")
+        Writing_DeskWork_Min.delete(0, "end")
+        Writing_DeskWork_Min.insert(0, Use[1])
+        Writing_DeskWork_Min.config(state="readonly")
+
+        # Walking Household Insert
+        Walking_Household_Hr.config(state="normal")
+        Walking_Household_Hr.delete(0, "end")
+        Walking_Household_Hr.insert(0, Use[0])
+        Walking_Household_Hr.config(state="readonly")
+
+        Walking_Household_Min.config(state="normal")
+        Walking_Household_Min.delete(0, "end")
+        Walking_Household_Min.insert(0, Use[1])
+        Walking_Household_Min.config(state="readonly")
+
+        # Walking Reg Insert
+        Walking_Reg_Hr.config(state="normal")
+        Walking_Reg_Hr.delete(0, "end")
+        Walking_Reg_Hr.insert(0, Use[0])
+        Walking_Reg_Hr.config(state="readonly")
+
+        Walking_Reg_Min.config(state="normal")
+        Walking_Reg_Min.delete(0, "end")
+        Walking_Reg_Min.insert(0, Use[1])
+        Walking_Reg_Min.config(state="readonly")
+
+
+def store_exercise_info():
+    #date info
+    day_fetch = str(DayE.get())
+    month_fetch = str(MonthE.get())
+    year_fetch = str(YearE.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+
+
+    #gather exercise info
+    Ab_Exercises_Data_One = Ab_Exercises_Min.get()
+    Ab_Exercises_Data_Two = Ab_Exercises_Sec.get()
+    Bridges_Data_One = Bridges_Min.get()
+    Bridges_Data_Two = Bridges_Sec.get()
+    Burpees_Data_One = Burpees_Min.get()
+    Burpees_Data_Two = Burpees_Sec.get()
+    Crunches_Data_One = Crunches_Min.get()
+    Crunches_Data_Two = Crunches_Sec.get()
+    Jumping_Jacks_Data_One = Jumping_Jacks_Min.get()
+    Jumping_Jacks_Data_Two = Jumping_Jacks_Sec.get()
+    Lunges_Data_One = Lunges_Min.get()
+    Lunges_Data_Two = Lunges_Sec.get()
+    Mountain_Climbers_Data_One = Mountain_Climbers_Min.get()
+    Mountain_Climbers_Data_Two = Mountain_Climbers_Sec.get()
+    Push_Ups_Data_One = Push_Ups_Min.get()
+    Push_Ups_Data_Two = Push_Ups_Sec.get()
+    Sit_Ups_Data_One = Sit_Ups_Min.get()
+    Sit_Ups_Data_Two = Sit_Ups_Sec.get()
+    Squats_Data_One = Squats_Min.get()
+    Squats_Data_Two = Squats_Sec.get()
+    Sleeping_Data_One = Sleeping_Hr.get()
+    Sleeping_Data_Two = Sleeping_Min.get()
+    Watching_Television_Data_One = Watching_Television_Hr.get()
+    Watching_Television_Data_Two = Watching_Television_Min.get()
+    Writing_Deskwork_Data_One = Writing_DeskWork_Hr.get()
+    Writing_Deskwork_Data_Two = Writing_DeskWork_Min.get()
+    Walking_Household_Data_One = Walking_Household_Hr.get()
+    Walking_Household_Data_Two = Walking_Household_Min.get()
+    Walking_Reg_Data_One = Walking_Reg_Hr.get()
+    Walking_Reg_Data_Two = Walking_Reg_Min.get()
+
+    null_check = (Ab_Exercises_Data_One + Ab_Exercises_Data_Two + Bridges_Data_One + Bridges_Data_Two
+                  + Burpees_Data_One + Burpees_Data_Two + Crunches_Data_One + Crunches_Data_Two +
+                  Jumping_Jacks_Data_One + Jumping_Jacks_Data_Two + Lunges_Data_One + Lunges_Data_Two +
+                  Mountain_Climbers_Data_One + Mountain_Climbers_Data_Two + Push_Ups_Data_One +
+                  Push_Ups_Data_Two + Sit_Ups_Data_One + Sit_Ups_Data_Two + Squats_Data_One + Squats_Data_Two
+                  + Sleeping_Data_One + Sleeping_Data_Two + Watching_Television_Data_One +
+                  Watching_Television_Data_Two + Writing_Deskwork_Data_One + Writing_Deskwork_Data_Two +
+                  Walking_Household_Data_One + Walking_Household_Data_Two + Walking_Reg_Data_One +
+                  Walking_Reg_Data_Two)
+
+    if null_check != "000000000000000000000000000000":
+        #store data
+        ex_store = open(polyfile + polyfile_dir + "/exercise_data.txt", "w", encoding="utf8")
+        ex_store.write(Ab_Exercises_Data_One + ":" + Ab_Exercises_Data_Two + "\n")
+        ex_store.write(Bridges_Data_One + ":" + Bridges_Data_Two + "\n")
+        ex_store.write(Burpees_Data_One + ":" + Burpees_Data_Two + "\n")
+        ex_store.write(Crunches_Data_One + ":" + Crunches_Data_Two + "\n")
+        ex_store.write(Jumping_Jacks_Data_One + ":" + Jumping_Jacks_Data_Two + "\n")
+        ex_store.write(Lunges_Data_One + ":" + Lunges_Data_Two + "\n")
+        ex_store.write(Mountain_Climbers_Data_One + ":" + Mountain_Climbers_Data_Two + "\n")
+        ex_store.write(Push_Ups_Data_One + ":" + Push_Ups_Data_Two + "\n")
+        ex_store.write(Sit_Ups_Data_One + ":" + Sit_Ups_Data_Two + "\n")
+        ex_store.write(Squats_Data_One + ":" + Squats_Data_Two + "\n")
+        ex_store.write(Sleeping_Data_One + ":" + Sleeping_Data_Two + "\n")
+        ex_store.write(Watching_Television_Data_One + ":" + Watching_Television_Data_Two + "\n")
+        ex_store.write(Writing_Deskwork_Data_One + ":" + Writing_Deskwork_Data_Two + "\n")
+        ex_store.write(Walking_Household_Data_One + ":" + Walking_Household_Data_Two + "\n")
+        ex_store.write(Walking_Reg_Data_One + ":" + Walking_Reg_Data_Two + "\n")
+        ex_store.close()
+
+    #call draw graph
+    Draw_Exercise_Graph()
 
 #create polyfile record for Exercise Log
 def polyfile_recordE():
@@ -6822,9 +7239,18 @@ def polyfile_recordE():
         day_count = 31
 
     #store date data to file
-    store_date_info = open(polyfile + "/date_info.txt", "w")
+    store_date_info = open(polyfile + "/date_info.txt", "w", encoding='utf8')
     store_date_info.write(str(day_count) + "\n" + day_fetch + "\n" + month_pull + "\n" + year_pull)
     store_date_info.close()
+
+    #update weight
+    weight_fetch()
+
+    #update exercise boxes
+    update_exercise_boxes()
+
+    #Draw Graph
+    Draw_Exercise_Graph()
 
 #Diet Data Metrics Date Setup
 DayE = tkinter.Spinbox(Exercise_Data_Metrics, width=3, from_=1, to=31, state="normal", command=polyfile_recordE)
@@ -6847,6 +7273,170 @@ YearE.place(x=293, y=22)
 YearE.delete(0, "end")
 YearE.insert(0, year_get)
 YearE.config(state="readonly")
+
+#Weight Operations
+def weight_fetch():
+    # date info
+    day_fetch = str(DayE.get())
+    month_fetch = str(MonthE.get())
+    year_fetch = str(YearE.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+
+    # insert weight information if it exists
+    if path.exists(polyfile + polyfile_dir + "/ex_weight.txt"):
+        read_weight = open(polyfile + polyfile_dir + "/ex_weight.txt", "r", encoding="utf8")
+        weight_data = read_weight.read()
+        read_weight.close()
+        Weight_Box.config(state="normal")
+        Weight_Box.delete(0, "end")
+        Weight_Box.insert(0, weight_data)
+        Weight_Box.config(state="readonly")
+    else:
+        if path.exists(polyfile + polyfile_dir + "/Weight and Height.txt"):
+            read_weight = open(polyfile + polyfile_dir + "/Weight and Height.txt", "r", encoding="utf8")
+            weight_data = read_weight.read()
+            read_weight.close()
+            split_data = weight_data.split(":")
+            weight = split_data[0]
+            Weight_Box.config(state="normal")
+            Weight_Box.delete(0, "end")
+            Weight_Box.insert(0, weight)
+            Weight_Box.config(state="readonly")
+        else:
+            Weight_Box.config(state="normal")
+            Weight_Box.delete(0, "end")
+            Weight_Box.insert(0, "100.0")
+            Weight_Box.config(state="readonly")
+
+    #Draw Exercise Graph
+    Draw_Exercise_Graph()
+
+def weight_box_command():
+    weight = Weight_Box.get()
+
+    # store weight
+    day_fetch = str(DayE.get())
+    month_fetch = str(MonthE.get())
+    year_fetch = str(YearE.get())
+    polyfile_dir = "/" + day_fetch + month_fetch + year_fetch
+    store = open(polyfile + polyfile_dir + "/ex_weight.txt", "w", encoding="utf8")
+    store.write(weight)
+    store.close()
+
+    weight_fetch()
+
+Weight_Box = tkinter.Spinbox(Exercise_Data_Metrics, width=5, from_=0, to=200, state="normal", increment=0.1,
+                             command=weight_box_command)
+Weight_Box.place(x=403, y=20)
+Weight_Box.delete(0, "end")
+Weight_Box.insert(0, "100.0")
+Weight_Box.config(state="readonly")
+
+#Exercise_List - Spinboxes
+Ab_Exercises_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                   command=store_exercise_info)
+Ab_Exercises_Min.place(x=151, y=110)
+Ab_Exercises_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                   command=store_exercise_info)
+Ab_Exercises_Sec.place(x=223, y=110)
+
+Bridges_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                              command=store_exercise_info)
+Bridges_Min.place(x=151, y=140)
+Bridges_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                              command=store_exercise_info)
+Bridges_Sec.place(x=223, y=140)
+
+Burpees_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                              command=store_exercise_info)
+Burpees_Min.place(x=151, y=170)
+Burpees_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                              command=store_exercise_info)
+Burpees_Sec.place(x=223, y=170)
+
+Crunches_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                               command=store_exercise_info)
+Crunches_Min.place(x=151, y=200)
+Crunches_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                               command=store_exercise_info)
+Crunches_Sec.place(x=223, y=200)
+
+Jumping_Jacks_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                    command=store_exercise_info)
+Jumping_Jacks_Min.place(x=151, y=230)
+Jumping_Jacks_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                    command=store_exercise_info)
+Jumping_Jacks_Sec.place(x=223, y=230)
+
+Lunges_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                             command=store_exercise_info)
+Lunges_Min.place(x=151, y=260)
+Lunges_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                             command=store_exercise_info)
+Lunges_Sec.place(x=223, y=260)
+
+Mountain_Climbers_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                        command=store_exercise_info)
+Mountain_Climbers_Min.place(x=151, y=290)
+Mountain_Climbers_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                        command=store_exercise_info)
+Mountain_Climbers_Sec.place(x=223, y=290)
+
+Push_Ups_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                               command=store_exercise_info)
+Push_Ups_Min.place(x=151, y=320)
+Push_Ups_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                               command=store_exercise_info)
+Push_Ups_Sec.place(x=223, y=320)
+
+Sit_Ups_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                              command=store_exercise_info)
+Sit_Ups_Min.place(x=151, y=350)
+Sit_Ups_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                              command=store_exercise_info)
+Sit_Ups_Sec.place(x=223, y=350)
+
+Squats_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                             command=store_exercise_info)
+Squats_Min.place(x=151, y=380)
+Squats_Sec = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                             command=store_exercise_info)
+Squats_Sec.place(x=223, y=380)
+
+Sleeping_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                              command=store_exercise_info)
+Sleeping_Hr.place(x=175, y=455)
+Sleeping_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                               command=store_exercise_info)
+Sleeping_Min.place(x=243, y=455)
+
+Watching_Television_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                         command=store_exercise_info)
+Watching_Television_Hr.place(x=175, y=485)
+Watching_Television_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                          command=store_exercise_info)
+Watching_Television_Min.place(x=243, y=485)
+
+Writing_DeskWork_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                      command=store_exercise_info)
+Writing_DeskWork_Hr.place(x=175, y=515)
+Writing_DeskWork_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                       command=store_exercise_info)
+Writing_DeskWork_Min.place(x=243, y=515)
+
+Walking_Household_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                       command=store_exercise_info)
+Walking_Household_Hr.place(x=175, y=545)
+Walking_Household_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                        command=store_exercise_info)
+Walking_Household_Min.place(x=243, y=545)
+
+Walking_Reg_Hr = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=100, state="readonly", increment=1,
+                                 command=store_exercise_info)
+Walking_Reg_Hr.place(x=175, y=575)
+Walking_Reg_Min = tkinter.Spinbox(Exercise_Data_Metrics, width=2, from_=0, to=59, state="readonly", increment=1,
+                                  command=store_exercise_info)
+Walking_Reg_Min.place(x=243, y=575)
 
 #trigger collapse of functions for Exercise_Log
 polyfile_recordE()
