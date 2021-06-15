@@ -6706,25 +6706,23 @@ Exercise_List.create_text(408, 527, text="2.8", font=("Comic Sans MS", 10), anch
 Exercise_Graph = tkinter.Canvas(Exercise_Data_Metrics, width=775, height=590,
                                 background="grey", bd=3, relief="sunken")
 Exercise_Graph.place(x=480, y=5)
-Muscle_Diag = ImageTk.PhotoImage(Image.open("Muscle_Diagram.png"))
-Exercise_Graph.create_image(0, 10, anchor=NW, image=Muscle_Diag)
+
 
 def Draw_Exercise_Graph():
     # clear canvas to intialize
     Exercise_Graph.delete("all")
-    Exercise_Graph.create_image(0, 10, anchor=NW, image=Muscle_Diag)
 
     #Build Axis
-    Exercise_Graph.create_line(50, 540, 50, 340, width=2) #y_axis
+    Exercise_Graph.create_line(50, 540, 50, 25, width=2) #y_axis
     Exercise_Graph.create_line(50, 540, 725, 540, width=2) #x_axis
 
     #Y_axis
     top = 540
     numbering = 0
-    while top > 340:
+    while top > 50:
         Exercise_Graph.create_line(50, (top-25),40, (top-25), width=2, fill="lime")
-        numbering = numbering + 50
-        Exercise_Graph.create_text(30, (top-25), text=str(numbering))
+        numbering = numbering + 150
+        Exercise_Graph.create_text(25, (top-25), text=str(numbering))
         top = top - 25
 
     #X_axis
@@ -6733,7 +6731,7 @@ def Draw_Exercise_Graph():
         info = read_date_info.read().splitlines()
         read_date_info.close()
         day_num = int(info[0])
-        month = info[3]
+        month = info[2]
         spacing = (675 / day_num)
         space = spacing
         incre = 0
@@ -6742,6 +6740,163 @@ def Draw_Exercise_Graph():
             Exercise_Graph.create_line((50+spacing), 540, (50+spacing), 550, width=2, fill="lime")
             Exercise_Graph.create_text((50 + spacing), 560, text=str(incre))
             spacing = spacing + space
+
+    #calculate MET data
+    if path.exists(polyfile + "/date_info.txt"):
+        read_date_info = open(polyfile + "/date_info.txt", "r", encoding='utf8')
+        info = read_date_info.read().splitlines()
+        read_date_info.close()
+        day_num = int(info[0])
+        month = info[2]
+        year = info[3]
+        start = 1
+        spacing = (675 / day_num)
+        while start != (day_num+1):
+            x_val = 50 + (start * spacing)
+            if path.exists(polyfile + "/" + str(start) + month + year + "/exercise_data.txt"):
+                #read data
+                ex_data = open(polyfile + "/" + str(start) + month + year + "/exercise_data.txt", "r", encoding="utf8")
+                data_get = ex_data.read().splitlines()
+                ex_data.close()
+                Cal_Burnt = 0
+
+                #get weight value
+                if path.exists(polyfile + "/" + str(start) + month + year + "/ex_weight.txt"):
+                    read_weight = open(polyfile + "/" + str(start) + month + year + "/ex_weight.txt", "r", encoding="utf8")
+                    weight_data = read_weight.read()
+                    read_weight.close()
+                    Weight = float(weight_data)
+                else:
+                    if path.exists(polyfile + "/" + str(start) + month + year + "/Weight and Height.txt"):
+                        read_weight = open(polyfile + "/" + str(start) + month + year + "/Weight and Height.txt", "r", encoding="utf8")
+                        weight_data = read_weight.read()
+                        read_weight.close()
+                        split_weight = weight_data.split(":")
+                        get_weight = split_weight[0]
+                        Weight = float(get_weight)
+                    else:
+                        Weight = Weight_Box.get()
+
+                #calculate calories burnt - MET's
+                Exercises = data_get[0]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (7 * 3.5 * float(Weight))/200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec/60)) * MET_calc)
+
+                Exercises = data_get[1]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (6 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[2]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (8 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[3]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (5 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[4]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (7.7 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[5]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (4 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[6]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (8 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[7]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (8 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[8]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (8 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exercises = data_get[9]
+                split = Exercises.split(":")
+                Time_Min = int(split[0])
+                Time_Sec = int(split[1])
+                MET_calc = (8 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + ((Time_Min + (Time_Sec / 60)) * MET_calc)
+
+                Exer_Cal = Cal_Burnt #store exercise calories
+
+                Exercises = data_get[10]
+                split = Exercises.split(":")
+                Time_Hr = int(split[0])
+                Time_Min = int(split[1])
+                MET_calc = (0.95 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + (((Time_Hr*60) + Time_Min) * MET_calc)
+
+                Exercises = data_get[11]
+                split = Exercises.split(":")
+                Time_Hr = int(split[0])
+                Time_Min = int(split[1])
+                MET_calc = (1 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + (((Time_Hr * 60) + Time_Min) * MET_calc)
+
+                Exercises = data_get[12]
+                split = Exercises.split(":")
+                Time_Hr = int(split[0])
+                Time_Min = int(split[1])
+                MET_calc = (1.3 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + (((Time_Hr * 60) + Time_Min) * MET_calc)
+
+                Exercises = data_get[13]
+                split = Exercises.split(":")
+                Time_Hr = int(split[0])
+                Time_Min = int(split[1])
+                MET_calc = (2.0 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + (((Time_Hr * 60) + Time_Min) * MET_calc)
+
+                Exercises = data_get[14]
+                split = Exercises.split(":")
+                Time_Hr = int(split[0])
+                Time_Min = int(split[1])
+                MET_calc = (2.8 * 3.5 * float(Weight)) / 200
+                Cal_Burnt = Cal_Burnt + (((Time_Hr * 60) + Time_Min) * MET_calc)
+                y_val = 540 - ((Cal_Burnt/3000) * 500)
+                exer_y = Cal_Burnt - Exer_Cal
+                z_val = 540 - ((exer_y/3000) * 500)
+
+                Exercise_Graph.create_rectangle(x_val-5, 539, x_val+5, y_val, fill="cyan")
+                Exercise_Graph.create_rectangle(x_val+5, y_val, x_val-5, z_val, fill="lime")
+                Exercise_Graph.create_line(50, y_val, x_val, y_val, fill="yellow", dash=(3,1))
+                Cal_Burnt = int(Cal_Burnt)
+                Exer_Cal = int(Exer_Cal)
+                Exercise_Graph.create_text(x_val, y_val-20, text=(str(Cal_Burnt) + "cal"), fill="white")
+                Exercise_Graph.create_text(x_val, y_val-10, text=(str(Exer_Cal) + "cal"), fill="lime")
+
+            start = start + 1
 
 def update_exercise_boxes():
     # date info
